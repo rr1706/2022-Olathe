@@ -68,6 +68,8 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     configureAutoChooser();
+
+    m_robotDrive.setDefaultCommand(m_drive);
   }
 
   /**
