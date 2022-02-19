@@ -1,13 +1,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterHood;
+import frc.robot.subsystems.Turret.Hood;
 
 public class ZeroHood extends CommandBase {
-    private ShooterHood m_hood;
+    private Hood m_hood;
 
 
-    public ZeroHood(ShooterHood hood){
+    public ZeroHood(Hood hood){
         m_hood = hood;
         addRequirements(m_hood);
     }
