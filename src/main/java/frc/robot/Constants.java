@@ -27,25 +27,25 @@ public final class Constants {
    * Static method containing all Drivetrain constants 
    */
   public static final class DriveConstants {
-    public static final int kFrontLeftDriveMotorPort = 3;   //CANID of the Translation SparkMAX
-    public static final int kFrontRightDriveMotorPort = 1;  //CANID of the Translation SparkMAX
-    public static final int kBackLeftDriveMotorPort = 5;    //CANID of the Translation SparkMAX
-    public static final int kBackRightDriveMotorPort = 7;   //CANID of the Translation SparkMAX
+    public static final int kFrontLeftDriveMotorPort = 19;   //CANID of the Translation SparkMAX
+    public static final int kFrontRightDriveMotorPort = 4;  //CANID of the Translation SparkMAX
+    public static final int kBackLeftDriveMotorPort = 6;    //CANID of the Translation SparkMAX
+    public static final int kBackRightDriveMotorPort = 2;   //CANID of the Translation SparkMAX
 
-    public static final int kFrontLeftTurningMotorPort = 4;   //CANID of the Rotation SparkMAX
-    public static final int kFrontRightTurningMotorPort = 2;  //CANID of the Rotation SparkMAX
-    public static final int kBackLeftTurningMotorPort = 6;    //CANID of the Rotation SparkMAX
-    public static final int kBackRightTurningMotorPort = 8;   //CANID of the Rotation SparkMAX
+    public static final int kFrontLeftTurningMotorPort = 18;   //CANID of the Rotation SparkMAX
+    public static final int kFrontRightTurningMotorPort = 3;  //CANID of the Rotation SparkMAX
+    public static final int kBackLeftTurningMotorPort = 7;    //CANID of the Rotation SparkMAX
+    public static final int kBackRightTurningMotorPort = 1;   //CANID of the Rotation SparkMAX
 
-    public static final int kFrontLeftTurningEncoderPort = 1;   //Analog Port of the Module Absolute Encoder
-    public static final int kFrontRightTurningEncoderPort = 0;  //Analog Port of the Module Absolute Encoder
-    public static final int kBackLeftTurningEncoderPort = 2;    //Analog Port of the Module Absolute Encoder
-    public static final int kBackRightTurningEncoderPort = 3;   //Analog Port of the Module Absolute Encoder
+    public static final int kFrontLeftTurningEncoderPort = 0;   //Analog Port of the Module Absolute Encoder
+    public static final int kFrontRightTurningEncoderPort = 1;  //Analog Port of the Module Absolute Encoder
+    public static final int kBackLeftTurningEncoderPort = 3;    //Analog Port of the Module Absolute Encoder
+    public static final int kBackRightTurningEncoderPort = 2;   //Analog Port of the Module Absolute Encoder
 
-    public static final double kFrontLeftOffset = -1.1634;  //Encoder Offset in Radians
-    public static final double kFrontRightOffset = 1.5366;  //Encoder Offset in Radians
-    public static final double kBackLeftOffset = -0.0884;   //Encoder Offset in Radians
-    public static final double kBackRightOffset = -1.6194;  //Encoder Offset in Radians
+    public static final double kFrontLeftOffset = -1.1634-0.269;  //Encoder Offset in Radians
+    public static final double kFrontRightOffset = 1.5366-4.870+3.14159;  //Encoder Offset in Radians
+    public static final double kBackLeftOffset = -0.0884-5.55;   //Encoder Offset in Radians
+    public static final double kBackRightOffset = -1.6194+0.542+3.14159;  //Encoder Offset in Radians
 
     //Drive motor PID is best done on the roboRIO currently as the SparkMAX does not allow for static gain values on the PID controller, 
     //    these are necessary to have high accuracy when moving at extremely low RPMs
@@ -82,14 +82,14 @@ public final class Constants {
     //Minimum allowable tranlsation command (in m/s) assuming user input is squared using quadraticTransform, this value is always positive and should be compared agaisnt the absolute value of the drive command
     public static final double kMinTranslationCommand = DriveConstants.kMaxSpeedMetersPerSecond * Math.pow(DriveConstants.kInnerDeadband,2);
 
-    public static final double[] kKeepAnglePID = { 0.800, 0, 0 }; //Defines the PID values for the keep angle PID
+    public static final double[] kKeepAnglePID = { 0.500, 0, 0 }; //Defines the PID values for the keep angle PID
 
   }
   /**
    * Static method containing all Swerve Module constants 
    */
   public static final class ModuleConstants {
-    public static final double kTranslationRampRate = 4.0;          //Units of %power/s, ie 4.0 means it takes 0.25s to reach 100% power from 0%
+    public static final double kTranslationRampRate = 3.0;          //Units of %power/s, ie 4.0 means it takes 0.25s to reach 100% power from 0%
     private static final double kTranslationGearRatio = 8.33333333; //Overall gear ratio of the swerve module
     private static final double kWheelDiameter = 0.09845*0.9685;           //Wheel Diameter in meters, may need to be experimentally determined due to compliance of floor/tread material
 
@@ -112,9 +112,9 @@ public final class Constants {
    * Static method containing all Global constants 
    */
   public static final class GlobalConstants {
-    public static final double kVoltCompensation = 12.6;        //Sets a voltage compensation value ideally 12.0V
-    public static final int PCHID = 24;
-    public static final int PDHID = 25;
+    public static final double kVoltCompensation = 12.6;        //Sets a voltage compensation value ideally 12.6V
+    public static final int PCHID = 20;
+    public static final int PDHID = 24;
   }
   /**
    * Static method containing all Vision/Limelight constants 
@@ -129,26 +129,26 @@ public final class Constants {
    * Static method containing all Intake constants 
    */
   public static final class IntakeConstants {
-    public static final int kLeftMotorID = 9;
-    public static final int kRightMotorID = 4;
-    public static final int[] kLeftAirPorts = {0,1};
-    public static final int[] kRightAirPorts = {0,1};
+    public static final int kLeftMotorID = 8;
+    public static final int kRightMotorID = 5;
+    public static final int[] kLeftAirPorts = {3,2};
+    public static final int[] kRightAirPorts = {1,0};
     public static final double []kPIDF = {0.00005,0,0,0.000091};
   }
 
   public static final class ElevatorConstants {
-    public static final int kLowMotorID = 12;
-    public static final int kHighMotorID = 13;
+    public static final int kLowMotorID = 16;
+    public static final int kHighMotorID = 17;
     public static final double []kPIDF = {0.00005,0,0,0.000091};
     public static final int kLowSensor = 0;
-    public static final int kHighSensor = 0;
+    public static final int kHighSensor = 1;
   }
 
   /**
    * Static method containing all Shooter constants 
    */
   public static final class ShooterConstants {
-    public static final int[] kMotorIDs = {16,17};        //CANID of the Motor Controller for the Feeder Motor
+    public static final int[] kMotorIDs = {14,15};        //CANID of the Motor Controller for the Feeder Motor
     public static final double kShotRPMTolerance = 50.0;          //RPMs of error allowed before a ball can be fed into t he shooter
     public static final double[] kPID = { 0.00005, 0.0003, 0 };         //Defines PID values for the shooter 0.00045
     public static final double kShooterFF = 0.018;            //Defines shooter FeedForward Value, should be roughly equal to 1/MaxMotorRPM * MaxRPMVoltage / Compensation Voltage
@@ -159,7 +159,7 @@ public final class Constants {
    * Static method containing all Turret constants 
    */
   public static final class TurretConstants {
-    public static final int kTurretPort = 1;                    //CANID of the turret motor controller
+    public static final int kTurretPort = 13;                    //CANID of the turret motor controller
     public static final int kTurretPotentiometerPort = 4;       //Analog port of the turret analog potentiometer
     public static final double kTurretTolerance = 0.0139626;    //allowable angle error in radians for the PIDSubsystem to report atSetpoint() to true
     public static final double[] kTurretPID = { 2*1.6, 0.0, 0 };  //Defines the PID values for rotation of the turret

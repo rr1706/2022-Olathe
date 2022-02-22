@@ -11,7 +11,7 @@ public class RunIntake extends CommandBase {
     private boolean m_ballDetected = false;
     public RunIntake(Intake intake){
         m_intake = intake;
-        addRequirements(intake);
+        addRequirements(m_intake);
     }
 
     @Override

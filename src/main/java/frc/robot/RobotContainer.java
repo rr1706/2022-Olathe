@@ -21,6 +21,7 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.Utilities.JoystickAnalogButton;
 import frc.robot.Utilities.JoystickAnalogButton.Side;
 import frc.robot.commands.DriveByController;
+import frc.robot.commands.RunElevators;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.RunShooter;
 import frc.robot.subsystems.Elevator;
@@ -52,6 +53,8 @@ public class RobotContainer {
 
   private final RunIntake m_runLeftIntake = new RunIntake(m_leftIntake);
   private final RunIntake m_runRightIntake = new RunIntake(m_rightIntake);
+
+  private final RunElevators m_runElevators = new RunElevators(m_lowElevator, m_highElevator);
 
   private final RunShooter m_runShooter = new RunShooter(m_shooter);
 
@@ -90,7 +93,8 @@ public class RobotContainer {
     new JoystickButton(m_driverController, Button.kA.value).whenPressed(m_runShooter);
     new JoystickButton(m_driverController, Button.kB.value).whenPressed(()->m_runShooter.cancel());
 
-    new JoystickButton(m_driverController, Button.kX.value).whenPressed(new WaitCommand(10.0));
+    new JoystickButton(m_driverController, Button.kX.value).whenPressed(m_runElevators);
+    new JoystickButton(m_driverController, Button.kY.value).whenPressed(()->m_runElevators.cancel());
 
   }
 
