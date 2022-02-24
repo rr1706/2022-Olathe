@@ -14,9 +14,9 @@ public final class Constants {
     public static final int kShooter = 40;
     public static final int kHood = 20;
     public static final int kElevator = 20;
-    public static final int kTranslation = 35;
-    public static final int kRotation = 25;
-    public static final int kClimber = 40;
+    public static final int kTranslation = 30;
+    public static final int kRotation = 20;
+    public static final int kClimber = 80;
   }
 
   public static final class GoalConstants{
@@ -144,28 +144,43 @@ public final class Constants {
     public static final int kHighSensor = 0;
   }
 
+  public static final class ClimberConstants {
+    public static final int[] kMotorID = {15,9};
+    public static final int[] kValvePorts = {4,5};
+  }
+
   /**
    * Static method containing all Shooter constants 
    */
   public static final class ShooterConstants {
-    public static final int[] kMotorIDs = {16,17};        //CANID of the Motor Controller for the Feeder Motor
-    public static final double kShotRPMTolerance = 50.0;          //RPMs of error allowed before a ball can be fed into t he shooter
-    public static final double[] kPID = { 0.00005, 0.0003, 0 };         //Defines PID values for the shooter 0.00045
-    public static final double kShooterFF = 0.018;            //Defines shooter FeedForward Value, should be roughly equal to 1/MaxMotorRPM * MaxRPMVoltage / Compensation Voltage
-    public static final double kStaticGain = 0.0001635;
+    public static final class Shooter {
+      public static final int[] kMotorIDs = {16,17};        //CANID of the Motor Controller for the Feeder Motor
+      public static final double kShotRPMTolerance = 50.0;          //RPMs of error allowed before a ball can be fed into t he shooter
+      public static final double[] kPID = { 0.00005, 0.0003, 0 };         //Defines PID values for the shooter 0.00045
+      public static final double kShooterFF = 0.018;            //Defines shooter FeedForward Value, should be roughly equal to 1/MaxMotorRPM * MaxRPMVoltage / Compensation Voltage
+      public static final double kStaticGain = 0.0001635;
+    }
+
+    public static final class Hood {
+      public static final int kMotorID = 0;
+    }
+
+    public static final class Rotation {
+      public static final int kMotorID = 1;                        //CANID of the turret motor controller
+      public static final int kPotentiometerID = 4;                //Analog port of the turret analog potentiometer
+      public static final double kTolerance = 0.8 * Math.PI / 180; //allowable angle error in radians for the PIDSubsystem to report atSetpoint() to true
+      public static final double[] kPID = { 3.2, 0.0, 0 };   //Defines the PID values for rotation of the turret
+      public static final double kStaticGain = 0.025;              //Limits Integral term so as to not wind up values when making larger moves
+      public static final double kTurretLow = 1.00;                //Minimum angle in radians allowed (defines the turret deadzone)
+      public static final double kTurretHigh = 5.25;               //Maximum angle in radians allowed (defines the turret deadzone)
+    }
   }
   
   /**
    * Static method containing all Turret constants 
    */
   public static final class TurretConstants {
-    public static final int kTurretPort = 1;                    //CANID of the turret motor controller
-    public static final int kTurretPotentiometerPort = 4;       //Analog port of the turret analog potentiometer
-    public static final double kTurretTolerance = 0.8 * Math.PI / 180;    //allowable angle error in radians for the PIDSubsystem to report atSetpoint() to true
-    public static final double[] kTurretPID = { 3.2, 0.0, 0 };  //Defines the PID values for rotation of the turret
-    public static final double kStaticGain = 0.025;             //Limits Integral term so as to not wind up values when making larger moves
-    public static final double kTurretLow = 1.00;               //Minimum angle in radians allowed (defines the turret deadzone)
-    public static final double kTurretHigh = 5.25;              //Maximum angle in radians allowed (defines the turret deadzone)
+    
   }
     /**
    * Static method containing all Autonomous constants 
