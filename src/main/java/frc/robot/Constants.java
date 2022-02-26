@@ -16,7 +16,7 @@ public final class Constants {
     public static final int kElevator = 20;
     public static final int kTranslation = 35;
     public static final int kRotation = 25;
-    public static final int kClimber = 40;
+    public static final int kClimber = 80;
   }
 
   public static final class GoalConstants{
@@ -42,7 +42,7 @@ public final class Constants {
     public static final int kBackLeftTurningEncoderPort = 3;    //Analog Port of the Module Absolute Encoder
     public static final int kBackRightTurningEncoderPort = 2;   //Analog Port of the Module Absolute Encoder
 
-    public static final double kFrontLeftOffset = -1.1634-0.269;  //Encoder Offset in Radians
+    public static final double kFrontLeftOffset = -1.1634-0.269-0.346+3.141593;  //Encoder Offset in Radians
     public static final double kFrontRightOffset = 1.5366-4.870+3.14159;  //Encoder Offset in Radians
     public static final double kBackLeftOffset = -0.0884-5.55;   //Encoder Offset in Radians
     public static final double kBackRightOffset = -1.6194+0.542+3.14159;  //Encoder Offset in Radians
@@ -144,11 +144,20 @@ public final class Constants {
     public static final int kHighSensor = 1;
   }
 
+  public static final class ClimberConstants {
+    public static final int[] kMotorID = {15,9};
+    public static final int[] kValvePorts = {4,5};
+  }
+
+  public static final class HoodConstants{
+    public static final int kMotorID = 11;
+  }
+
   /**
    * Static method containing all Shooter constants 
    */
   public static final class ShooterConstants {
-    public static final int[] kMotorIDs = {14,15};        //CANID of the Motor Controller for the Feeder Motor
+    public static final int[] kMotorIDs = {12,13};        //CANID of the Motor Controller for the Sooter Motor
     public static final double kShotRPMTolerance = 50.0;          //RPMs of error allowed before a ball can be fed into t he shooter
     public static final double[] kPID = { 0.00005, 0.0003, 0 };         //Defines PID values for the shooter 0.00045
     public static final double kShooterFF = 0.018;            //Defines shooter FeedForward Value, should be roughly equal to 1/MaxMotorRPM * MaxRPMVoltage / Compensation Voltage

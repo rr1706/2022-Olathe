@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.time.Instant;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -11,6 +13,10 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -22,13 +28,16 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.Utilities.JoystickAnalogButton;
 import frc.robot.Utilities.JoystickAnalogButton.Side;
 import frc.robot.commands.DriveByController;
+import frc.robot.commands.RunElevators;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.RunShooter;
+import frc.robot.commands.ZeroClimb;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Swerve.Drivetrain;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.ShooterHood;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -52,12 +61,17 @@ public class RobotContainer {
 
   private final Climber m_climber = new Climber();
 
+  private final ZeroClimb m_ZeroClimb = new ZeroClimb(m_climber);
+
   private final Shooter m_shooter = new Shooter(ShooterConstants.kMotorIDs);
+
+  //private final ShooterHood m_hood = new ShooterHood();
 
   private final RunIntake m_runLeftIntake = new RunIntake(m_leftIntake);
   private final RunIntake m_runRightIntake = new RunIntake(m_rightIntake);
 
   private final RunShooter m_runShooter = new RunShooter(m_shooter);
+  private final RunElevators m_runElevators = new RunElevators(m_lowElevator, m_highElevator);
 
   private final DriveByController m_drive = new DriveByController(m_robotDrive, m_driverController);
 
@@ -74,6 +88,7 @@ public class RobotContainer {
     configureAutoChooser();
 
     m_robotDrive.setDefaultCommand(m_drive);
+    m_climber.setDefaultCommand(new RunCommand(()->m_climber.run(), m_climber));
   }
 
   /**
@@ -88,13 +103,25 @@ public class RobotContainer {
     new POVButton(m_driverController, 180)
         .whenPressed(() -> m_robotDrive.resetOdometry(new Rotation2d(Math.PI)));
 
-    new JoystickAnalogButton(m_driverController, Side.kRight).whenPressed(m_runRightIntake).whenReleased(()->m_runRightIntake.cancel());
-    new JoystickAnalogButton(m_driverController, Side.kLeft).whenPressed(m_runLeftIntake).whenReleased(()->m_runLeftIntake.cancel());
+    new JoystickAnalogButton(m_driverController, Side.kRight).whenPressed(m_runRightIntake)
+      .whenReleased(new InstantCommand(()->m_runRightIntake.cancel())
+        .andThen(new WaitCommand(1.0).andThen(()->m_rightIntake.stop()))
+        .withInterrupt(()->m_runRightIntake.isScheduled()));
+
+    new JoystickAnalogButton(m_driverController, Side.kLeft).whenPressed(m_runLeftIntake)
+      .whenReleased(new InstantCommand(()->m_runLeftIntake.cancel())
+        .andThen(new WaitCommand(1.0).andThen(()->m_leftIntake.stop()))
+        .withInterrupt(()->m_runLeftIntake.isScheduled()));
     
     new JoystickButton(m_driverController, Button.kA.value).whenPressed(m_runShooter);
     new JoystickButton(m_driverController, Button.kB.value).whenPressed(()->m_runShooter.cancel());
 
-    new JoystickButton(m_driverController, Button.kX.value).whenPressed(new WaitCommand(10.0));
+    new JoystickButton(m_driverController, Button.kX.value).toggleWhenPressed(m_runElevators);
+
+    new JoystickButton(m_operatorController, Button.kStart.value).whenPressed(m_ZeroClimb);
+    new JoystickButton(m_operatorController, Button.kA.value).whenPressed(()->m_climber.extend());
+    new JoystickButton(m_operatorController, Button.kB.value).whenPressed(()->m_climber.retract());
+
 
   }
 

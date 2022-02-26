@@ -39,6 +39,8 @@ public class Shooter extends SubsystemBase{
         m_motor1.setInverted(false);
         m_motor2.follow(m_motor1,true);
 
+        m_encoder1.setVelocityConversionFactor(1.0);
+
         m_motor1.burnFlash();
         m_motor2.burnFlash();
 

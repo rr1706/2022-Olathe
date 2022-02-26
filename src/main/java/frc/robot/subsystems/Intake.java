@@ -57,7 +57,6 @@ public class Intake extends SubsystemBase {
     }
     public void stop(){
         m_motor.stopMotor();
-        m_actuator.set(Value.kReverse);
     }
 
     public double getCurrent(){

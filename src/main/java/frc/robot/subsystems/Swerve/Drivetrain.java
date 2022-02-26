@@ -85,7 +85,7 @@ import frc.robot.Constants.*;
    */
   @SuppressWarnings("ParameterName")
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
-    //rot = performKeepAngle(xSpeed,ySpeed,rot); //Calls the keep angle function to update the keep angle or rotate depending on driver input
+    rot = performKeepAngle(xSpeed,ySpeed,rot); //Calls the keep angle function to update the keep angle or rotate depending on driver input
     
     SmartDashboard.putNumber("xSpeed Commanded", xSpeed);
     SmartDashboard.putNumber("ySpeed Commanded", ySpeed);
@@ -103,10 +103,10 @@ import frc.robot.Constants.*;
   @Override
   public void periodic(){
 
-        SmartDashboard.putNumber("Front Left Encoder", m_frontLeft.getTurnEncoder());
-        SmartDashboard.putNumber("Front Right Encoder", m_frontRight.getTurnEncoder());
-        SmartDashboard.putNumber("Back Left Encoder", m_backLeft.getTurnEncoder());
-        SmartDashboard.putNumber("Back Right Encoder", m_backRight.getTurnEncoder());
+       // SmartDashboard.putNumber("Front Left Encoder", m_frontLeft.getTurnEncoder());
+        //SmartDashboard.putNumber("Front Right Encoder", m_frontRight.getTurnEncoder());
+        //SmartDashboard.putNumber("Back Left Encoder", m_backLeft.getTurnEncoder());
+        //SmartDashboard.putNumber("Back Right Encoder", m_backRight.getTurnEncoder());
 
         //Update swerve drive odometry periodically so robot pose can be tracked
         updateOdometry();    
@@ -236,7 +236,7 @@ import frc.robot.Constants.*;
     if(timeSinceRot < 0.5){                               //Update keepAngle up until 0.5s after rotate command stops to allow rotation move to finish
       keepAngle = getGyro().getRadians();
     }
-    else if(Math.abs(rot) < DriveConstants.kMinRotationCommand && timeSinceDrive < 0.75){ //Run Keep angle pid until 0.75s after drive command stops to combat decel drift
+    else if(Math.abs(rot) < DriveConstants.kMinRotationCommand && timeSinceDrive < 0.25){ //Run Keep angle pid until 0.75s after drive command stops to combat decel drift
       output = m_keepAnglePID.calculate(getGyro().getRadians(), keepAngle);               //Set output command to the result of the Keep Angle PID 
     }
     return output;

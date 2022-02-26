@@ -12,19 +12,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CurrentLimit;
 import frc.robot.Constants.GlobalConstants;
+import frc.robot.Constants.HoodConstants;
 
 public class ShooterHood extends SubsystemBase {
-    private final CANSparkMax m_hoodMotor = new CANSparkMax(5,MotorType.kBrushless);
+    private final CANSparkMax m_hoodMotor = new CANSparkMax(HoodConstants.kMotorID,MotorType.kBrushless);
     private final RelativeEncoder m_hoodEncoder = m_hoodMotor.getEncoder();
     private final SparkMaxPIDController m_hoodPID = m_hoodMotor.getPIDController();
-    private final DigitalInput m_hoodLimit = new DigitalInput(0);
+    //private final DigitalInput m_hoodLimit = new DigitalInput(10);
     private double m_hoodAngle = 15.0;
 
     public ShooterHood(){
         m_hoodMotor.setSmartCurrentLimit(CurrentLimit.kHood);
         m_hoodMotor.enableVoltageCompensation(GlobalConstants.kVoltCompensation);
         m_hoodMotor.setIdleMode(IdleMode.kBrake);
-        m_hoodEncoder.setPositionConversionFactor(1.333333);
+        m_hoodEncoder.setPositionConversionFactor(1.2777778);
         m_hoodPID.setP(0.25);
         m_hoodPID.setI(0.0);
         m_hoodPID.setIMaxAccum(0.0003, 0);
@@ -35,7 +36,7 @@ public class ShooterHood extends SubsystemBase {
         m_hoodMotor.burnFlash();
 
         SmartDashboard.putNumber("SetHoodAngle", m_hoodAngle);
-        SmartDashboard.putBoolean("Hood Limit", m_hoodLimit.get());
+        m_hoodEncoder.setPosition(0.0);
     }
 
     public void run() {
@@ -61,9 +62,9 @@ public class ShooterHood extends SubsystemBase {
         m_hoodMotor.stopMotor();
     }
 
-    public boolean getHoodLimit(){
+    /* public boolean getHoodLimit(){
         return m_hoodLimit.get();
-    }
+    } */
 
     public double getHoodAngle(){
         return m_hoodEncoder.getPosition();
@@ -76,6 +77,7 @@ public class ShooterHood extends SubsystemBase {
     @Override
     public void periodic() {
         setHoodAngle(SmartDashboard.getNumber("SetHoodAngle", 15.0));
+        run();
     }
 
 }

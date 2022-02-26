@@ -18,10 +18,10 @@ public class ZeroHood extends CommandBase {
 
     @Override
     public void execute(){
-        if(m_hood.getHoodLimit()){
+/*         if(m_hood.getHoodLimit()){
             m_hood.setHoodZero();
             m_hood.setHood(0.0);
-        }
+        } */
     }
 
     @Override

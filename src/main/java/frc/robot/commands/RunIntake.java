@@ -37,7 +37,7 @@ public class RunIntake extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        m_intake.stop();
+        m_intake.retract();
         m_timer.stop();
         m_ballDetected = false;
         m_ballTime = 0.0;

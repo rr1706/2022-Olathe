@@ -3,6 +3,7 @@ package frc.robot.commands;
 import frc.robot.Constants.*;
 import frc.robot.subsystems.Swerve.*;
 import frc.robot.Utilities.MathUtils;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -12,6 +13,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class DriveByController extends CommandBase {
   private final Drivetrain m_robotDrive;
   private final XboxController m_controller;
+
+  private final SlewRateLimiter m_slewX = new SlewRateLimiter(1.5);
+  private final SlewRateLimiter m_slewY = new SlewRateLimiter(1.5);
+
+
   private boolean fieldOrient = true;
 
   /**
@@ -31,10 +37,11 @@ public class DriveByController extends CommandBase {
    */
   @Override
   public void execute() {
-    m_robotDrive.drive(
-        -inputTransform(m_controller.getLeftY())
+    m_robotDrive.drive(m_slewX.calculate(
+        -inputTransform(m_controller.getLeftY()))
             * DriveConstants.kMaxSpeedMetersPerSecond,
-        -inputTransform(m_controller.getLeftX())
+        m_slewY.calculate(
+          -inputTransform(m_controller.getLeftX()))
             * DriveConstants.kMaxSpeedMetersPerSecond,
         -inputTransform(m_controller.getRightX())
             * DriveConstants.kMaxAngularSpeed,
