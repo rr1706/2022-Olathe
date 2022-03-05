@@ -28,16 +28,19 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.Utilities.JoystickAnalogButton;
 import frc.robot.Utilities.JoystickAnalogButton.Side;
 import frc.robot.commands.DriveByController;
+import frc.robot.commands.FaceTurret;
 import frc.robot.commands.RunElevators;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.RunShooter;
 import frc.robot.commands.ZeroClimb;
+import frc.robot.commands.ZeroHood;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Swerve.Drivetrain;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.ShooterHood;
+import frc.robot.subsystems.Turret;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -61,19 +64,23 @@ public class RobotContainer {
 
   private final Climber m_climber = new Climber();
 
-  private final ZeroClimb m_ZeroClimb = new ZeroClimb(m_climber);
+  private final Turret m_turret = new Turret();
 
   private final Shooter m_shooter = new Shooter(ShooterConstants.kMotorIDs);
 
-  //private final ShooterHood m_hood = new ShooterHood();
+  private final ShooterHood m_hood = new ShooterHood();
+  private final ZeroClimb m_ZeroClimb = new ZeroClimb(m_climber);
+  private final ZeroHood m_ZeroHood = new ZeroHood(m_hood);
 
   private final RunIntake m_runLeftIntake = new RunIntake(m_leftIntake);
   private final RunIntake m_runRightIntake = new RunIntake(m_rightIntake);
 
-  private final RunShooter m_runShooter = new RunShooter(m_shooter);
+  private final RunShooter m_runShooter = new RunShooter(m_shooter, m_turret, m_robotDrive, m_hood);
   private final RunElevators m_runElevators = new RunElevators(m_lowElevator, m_highElevator);
 
   private final DriveByController m_drive = new DriveByController(m_robotDrive, m_driverController);
+
+  private final FaceTurret m_faceTurret = new FaceTurret(m_turret, m_robotDrive); // Create FaceTurret Command
 
   private final Command autoFiveBall = new WaitCommand(20.0);
   private final Command autoThreeBall = new WaitCommand(20.0);
@@ -87,6 +94,7 @@ public class RobotContainer {
     configureButtonBindings();
     configureAutoChooser();
 
+    m_turret.setDefaultCommand(m_faceTurret);
     m_robotDrive.setDefaultCommand(m_drive);
     m_climber.setDefaultCommand(new RunCommand(()->m_climber.run(), m_climber));
   }
@@ -118,7 +126,7 @@ public class RobotContainer {
 
     new JoystickButton(m_driverController, Button.kX.value).toggleWhenPressed(m_runElevators);
 
-    new JoystickButton(m_operatorController, Button.kStart.value).whenPressed(m_ZeroClimb);
+    new JoystickButton(m_operatorController, Button.kStart.value).whenPressed(m_ZeroHood.withTimeout(2.0));
     new JoystickButton(m_operatorController, Button.kA.value).whenPressed(()->m_climber.extend());
     new JoystickButton(m_operatorController, Button.kB.value).whenPressed(()->m_climber.retract());
 

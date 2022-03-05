@@ -13,12 +13,31 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CurrentLimit;
 import frc.robot.Constants.GlobalConstants;
 import frc.robot.Constants.HoodConstants;
+import frc.robot.Utilities.LinearInterpolationTable;
+
+import java.awt.geom.Point2D;
 
 public class ShooterHood extends SubsystemBase {
     private final CANSparkMax m_hoodMotor = new CANSparkMax(HoodConstants.kMotorID,MotorType.kBrushless);
     private final RelativeEncoder m_hoodEncoder = m_hoodMotor.getEncoder();
     private final SparkMaxPIDController m_hoodPID = m_hoodMotor.getPIDController();
     //private final DigitalInput m_hoodLimit = new DigitalInput(10);
+
+    private static Point2D[] points = 
+    new Point2D.Double[]{
+        //(ty-angle,distance)
+        new Point2D.Double(-9.95,267.5),
+        new Point2D.Double(-5.03,205.7),
+        new Point2D.Double(0.05,165.8),
+        new Point2D.Double(5.02,141.5),
+        new Point2D.Double(10.03,122.5),
+        new Point2D.Double(15.01,108),
+        new Point2D.Double(19.99,99),
+        new Point2D.Double(23.25,89)
+    };
+private static LinearInterpolationTable angleTable = new LinearInterpolationTable(points);
+
+
     private double m_hoodAngle = 15.0;
 
     public ShooterHood(){
@@ -32,7 +51,7 @@ public class ShooterHood extends SubsystemBase {
         m_hoodPID.setD(0.0);
         m_hoodPID.setFF(0.00);
         m_hoodPID.setOutputRange(-0.33, 1.0);
-        m_hoodMotor.setInverted(false);
+        m_hoodMotor.setInverted(true);
         m_hoodMotor.burnFlash();
 
         SmartDashboard.putNumber("SetHoodAngle", m_hoodAngle);
@@ -40,11 +59,16 @@ public class ShooterHood extends SubsystemBase {
     }
 
     public void run() {
+        m_hoodAngle = SmartDashboard.getNumber("SetHoodAngle", 10);
         m_hoodPID.setReference(m_hoodAngle, ControlType.kPosition);
     }
 
     public void setHood(double speed){
         m_hoodMotor.set(speed);
+    }
+
+    public double getTotalCurrent(){
+        return m_hoodMotor.getOutputCurrent();
     }
 
     public void setHoodAngle(double angle){
@@ -58,7 +82,7 @@ public class ShooterHood extends SubsystemBase {
     }
 
     public void setHoodZero(){
-        m_hoodEncoder.setPosition(-0.5);
+        m_hoodEncoder.setPosition(0.0);
         m_hoodMotor.stopMotor();
     }
 
@@ -73,11 +97,5 @@ public class ShooterHood extends SubsystemBase {
     public void stop() {
         m_hoodMotor.stopMotor();
     }
-
-    @Override
-    public void periodic() {
-        setHoodAngle(SmartDashboard.getNumber("SetHoodAngle", 15.0));
-        run();
-    }
-
+    
 }

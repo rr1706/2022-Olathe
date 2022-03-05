@@ -13,20 +13,20 @@ public class ZeroHood extends CommandBase {
     }
     @Override
     public void initialize(){
-        m_hood.setHood(-0.040);
+        m_hood.setHood(-0.05);
     }
 
     @Override
     public void execute(){
-/*         if(m_hood.getHoodLimit()){
+        if(m_hood.getTotalCurrent()>15.0){
             m_hood.setHoodZero();
-            m_hood.setHood(0.0);
-        } */
+            cancel();
+        }
     }
 
     @Override
     public void end(boolean interrupted) {
       m_hood.setHoodAngle(0);
-      m_hood.setHood(0.0);
+      m_hood.stop();
     }
 }

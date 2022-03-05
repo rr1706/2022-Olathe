@@ -76,6 +76,7 @@ public class Shooter extends SubsystemBase{
         SmartDashboard.putNumber("Shooter Current", m_motor1.getOutputCurrent()+m_motor2.getOutputCurrent());
         m_RPM = SmartDashboard.getNumber("SetShotRPM", 3000.0);
 
+        
         if(SmartDashboard.getBoolean("Shooter PID Reset", false)){
             double kv = SmartDashboard.getNumber("Shooter FF", 0.00016);
             double ks = SmartDashboard.getNumber("Shooter Static", 0.02);

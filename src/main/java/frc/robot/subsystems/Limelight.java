@@ -18,16 +18,14 @@ public class Limelight {
     private static Point2D[] points = 
         new Point2D.Double[]{
             //(ty-angle,distance)
-            new Point2D.Double(-23.7,319.5),
-            new Point2D.Double(-20,272.5),
-            new Point2D.Double(-15,217),
-            new Point2D.Double(-10,183.5),
-            new Point2D.Double(-5,159.5),
-            new Point2D.Double(0,136.5),
-            new Point2D.Double(5,119),
-            new Point2D.Double(10,105.5),
-            new Point2D.Double(15,93),
-            new Point2D.Double(20,83.5)
+            new Point2D.Double(-9.95,267.5),
+            new Point2D.Double(-5.03,205.7),
+            new Point2D.Double(0.05,165.8),
+            new Point2D.Double(5.02,141.5),
+            new Point2D.Double(10.03,122.5),
+            new Point2D.Double(15.01,108),
+            new Point2D.Double(19.99,99),
+            new Point2D.Double(23.25,89)
         };
     private static LinearInterpolationTable distTable = new LinearInterpolationTable(points);
     /**

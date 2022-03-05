@@ -11,6 +11,7 @@ public final class Constants {
 
   public static final class CurrentLimit{
     public static final int kIntake = 20;
+    public static final int kTurret = 30;
     public static final int kShooter = 40;
     public static final int kHood = 20;
     public static final int kElevator = 20;
@@ -144,6 +145,16 @@ public final class Constants {
     public static final int kHighSensor = 1;
   }
 
+  public static final class TurretConstants {
+    public static final int kTurretPort = 14;                    //CANID of the turret motor controller
+    public static final int kTurretPotentiometerPort = 4;       //Analog port of the turret analog potentiometer
+    public static final double kTurretTolerance = 0.0139626;    //allowable angle error in radians for the PIDSubsystem to report atSetpoint() to true
+    public static final double[] kTurretPID = { 3.2, 0.0, 0 };  //Defines the PID values for rotation of the turret
+    public static final double kStaticGain = 0.025;             //Limits Integral term so as to not wind up values when making larger moves
+    public static final double kTurretLow = 0.16;               //Minimum angle in radians allowed (defines the turret deadzone)
+    public static final double kTurretHigh = 6.12;              //Maximum angle in radians allowed (defines the turret deadzone)
+  }
+
   public static final class ClimberConstants {
     public static final int[] kMotorID = {15,9};
     public static final int[] kValvePorts = {4,5};
@@ -164,18 +175,6 @@ public final class Constants {
     public static final double kStaticGain = 0.0001635;
   }
   
-  /**
-   * Static method containing all Turret constants 
-   */
-  public static final class TurretConstants {
-    public static final int kTurretPort = 13;                    //CANID of the turret motor controller
-    public static final int kTurretPotentiometerPort = 4;       //Analog port of the turret analog potentiometer
-    public static final double kTurretTolerance = 0.0139626;    //allowable angle error in radians for the PIDSubsystem to report atSetpoint() to true
-    public static final double[] kTurretPID = { 2*1.6, 0.0, 0 };  //Defines the PID values for rotation of the turret
-    public static final double kStaticGain = 0.025;           //Limits Integral term so as to not wind up values when making larger moves
-    public static final double kTurretLow = 1.00;               //Minimum angle in radians allowed (defines the turret deadzone)
-    public static final double kTurretHigh = 5.25;              //Maximum angle in radians allowed (defines the turret deadzone)
-  }
     /**
    * Static method containing all Autonomous constants 
    */
