@@ -45,7 +45,7 @@ private static LinearInterpolationTable angleTable = new LinearInterpolationTabl
         m_hoodMotor.enableVoltageCompensation(GlobalConstants.kVoltCompensation);
         m_hoodMotor.setIdleMode(IdleMode.kBrake);
         m_hoodEncoder.setPositionConversionFactor(1.2777778);
-        m_hoodPID.setP(0.25);
+        m_hoodPID.setP(0.20);
         m_hoodPID.setI(0.0);
         m_hoodPID.setIMaxAccum(0.0003, 0);
         m_hoodPID.setD(0.0);
@@ -54,12 +54,13 @@ private static LinearInterpolationTable angleTable = new LinearInterpolationTabl
         m_hoodMotor.setInverted(true);
         m_hoodMotor.burnFlash();
 
-        SmartDashboard.putNumber("SetHoodAngle", m_hoodAngle);
+        //SmartDashboard.putNumber("SetHoodAngle", m_hoodAngle);
         m_hoodEncoder.setPosition(0.0);
     }
 
-    public void run() {
-        m_hoodAngle = SmartDashboard.getNumber("SetHoodAngle", 10);
+    public void run(double angle) {
+        setHoodAngle(angle);
+        //setHoodAngle(SmartDashboard.getNumber("SetHoodAngle", 10));
         m_hoodPID.setReference(m_hoodAngle, ControlType.kPosition);
     }
 
@@ -71,13 +72,20 @@ private static LinearInterpolationTable angleTable = new LinearInterpolationTabl
         return m_hoodMotor.getOutputCurrent();
     }
 
+    @Override
+    public void periodic(){
+        SmartDashboard.putNumber("Hood Current", getTotalCurrent());
+        SmartDashboard.putNumber("Current Hood Angle", getHoodAngle());
+
+    }
+
     public void setHoodAngle(double angle){
         m_hoodAngle = angle;
         if(m_hoodAngle < 0.0){
             m_hoodAngle = 0.0;
         }
-        else if(m_hoodAngle > 26.0){
-            m_hoodAngle = 26.0;
+        else if(m_hoodAngle > 38.0){
+            m_hoodAngle = 38.0;
         }
     }
 
@@ -96,6 +104,9 @@ private static LinearInterpolationTable angleTable = new LinearInterpolationTabl
 
     public void stop() {
         m_hoodMotor.stopMotor();
+    }
+    public boolean atSetpoint(){
+        return Math.abs(m_hoodAngle-getHoodAngle())<0.5;
     }
     
 }

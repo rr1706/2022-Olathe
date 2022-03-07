@@ -41,7 +41,7 @@ public class Climber extends SubsystemBase {
         m_motor1.burnFlash();
         m_motor2.burnFlash();
 
-        SmartDashboard.putNumber("Set Climber Pose", 0.0);
+        //SmartDashboard.putNumber("Set Climber Pose", 0.0);
 
     }
 
@@ -79,14 +79,14 @@ public class Climber extends SubsystemBase {
     @Override
     public void periodic() {
         double pose = m_encoder.getPosition();
-        SmartDashboard.putBoolean("Running Climber", false);
-        m_pose = SmartDashboard.getNumber("Set Climber Pose", 0.0);
-        SmartDashboard.putNumber("Climber Pose", pose);
-        SmartDashboard.putNumber("Current 1", m_motor1.getOutputCurrent());
-        SmartDashboard.putNumber("Current 2", m_motor2.getOutputCurrent());
+        //SmartDashboard.putBoolean("Running Climber", false);
+        //m_pose = SmartDashboard.getNumber("Set Climber Pose", 0.0);
+        //SmartDashboard.putNumber("Climber Pose", pose);
+        //SmartDashboard.putNumber("Current 1", m_motor1.getOutputCurrent());
+        //SmartDashboard.putNumber("Current 2", m_motor2.getOutputCurrent());
 
-        SmartDashboard.putNumber("Motor 1 Temp", m_motor1.getMotorTemperature());
-        SmartDashboard.putNumber("Motor 2 Temp", m_motor2.getMotorTemperature());
+        //SmartDashboard.putNumber("Motor 1 Temp", m_motor1.getMotorTemperature());
+       // SmartDashboard.putNumber("Motor 2 Temp", m_motor2.getMotorTemperature());
 
     }
 

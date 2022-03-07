@@ -19,9 +19,10 @@ public class Elevator extends SubsystemBase {
     private final SparkMaxPIDController m_PID;
     private final String m_ID;
     private final DigitalInput m_sensor;
-    private double m_RPM = 8000;
+    private double m_RPM = 10000;
 
-    public Elevator(int motorCANID, int sensorPort, String ID){
+    public Elevator(int motorCANID, int sensorPort, String ID, double rpm){
+        m_RPM = rpm;
         m_ID = ID;
         m_sensor = new DigitalInput(sensorPort);
         m_motor = new CANSparkMax(motorCANID, MotorType.kBrushless);
@@ -30,7 +31,7 @@ public class Elevator extends SubsystemBase {
 
         m_motor.setSmartCurrentLimit(CurrentLimit.kElevator);
         m_motor.enableVoltageCompensation(GlobalConstants.kVoltCompensation);
-        m_motor.setIdleMode(IdleMode.kCoast);
+        m_motor.setIdleMode(IdleMode.kBrake);
         m_PID.setOutputRange(-1.0, 1.0);
         m_PID.setP(0.00005);
         m_PID.setI(0.0);
@@ -38,7 +39,7 @@ public class Elevator extends SubsystemBase {
         m_PID.setFF(0.000091);
         m_motor.burnFlash();
 
-        SmartDashboard.putNumber("Set "+m_ID+" Elevator RPM", m_RPM);
+        //SmartDashboard.putNumber("Set "+m_ID+" Elevator RPM", m_RPM);
 
     }
     
@@ -51,12 +52,16 @@ public class Elevator extends SubsystemBase {
     public double getCurrent(){
        return m_motor.getOutputCurrent();
     }
+    public boolean getSensor(){
+        return !m_sensor.get();
+    }
 
     @Override
     public void periodic() {
-        m_RPM = SmartDashboard.getNumber("Set "+m_ID+" Elevator RPM", 8000);
-        SmartDashboard.putNumber(m_ID+" Elevator Current", m_motor.getOutputCurrent());
-        SmartDashboard.putNumber(m_ID+" Elevator Motor Temp", m_motor.getMotorTemperature());
+        //m_RPM = SmartDashboard.getNumber("Set "+m_ID+" Elevator RPM", 10000);
+        //SmartDashboard.putNumber(m_ID+" Elevator Current", m_motor.getOutputCurrent());
+       // SmartDashboard.putNumber(m_ID+" Elevator Motor Temp", m_motor.getMotorTemperature());
         SmartDashboard.putNumber(m_ID+" Elevator RPM", m_encoder.getVelocity());
+        SmartDashboard.putBoolean(m_ID+" Indexed Ball", getSensor());
     }
 }

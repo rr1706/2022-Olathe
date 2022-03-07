@@ -23,16 +23,22 @@ public class RunIntake extends CommandBase {
 
     @Override
     public void execute(){
-        m_intake.run();
         final double currentTime = m_timer.get();
         if(m_intake.getCurrent()>15.0 && currentTime>0.250 && !m_ballDetected)
         {
             m_ballTime = currentTime;
             m_ballDetected = true;
+            m_intake.run(4000);
         }
-        if(m_ballDetected && (currentTime-m_ballTime)>0.25){
-            //cancel();
+        else if(!m_ballDetected){
+            m_intake.run(10000);
         }
+        else if(m_ballDetected && Math.abs(m_ballTime-currentTime)>0.500){
+            m_ballDetected = false;
+            m_ballTime = 0.0;
+            m_timer.reset();
+        }
+
     }
 
     @Override

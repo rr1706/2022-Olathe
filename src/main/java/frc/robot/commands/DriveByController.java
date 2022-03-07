@@ -14,8 +14,8 @@ public class DriveByController extends CommandBase {
   private final Drivetrain m_robotDrive;
   private final XboxController m_controller;
 
-  private final SlewRateLimiter m_slewX = new SlewRateLimiter(1.5);
-  private final SlewRateLimiter m_slewY = new SlewRateLimiter(1.5);
+  private final SlewRateLimiter m_slewX = new SlewRateLimiter(1.25);
+  private final SlewRateLimiter m_slewY = new SlewRateLimiter(1.25);
 
 
   private boolean fieldOrient = true;

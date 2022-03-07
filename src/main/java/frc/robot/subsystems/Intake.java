@@ -22,7 +22,7 @@ public class Intake extends SubsystemBase {
     private final SparkMaxPIDController m_PID;
     private final DoubleSolenoid m_actuator;
     private final String m_ID;
-    private double m_RPM = 8000;
+    private double m_RPM = 10000;
 
     public Intake(int motorCANID, int[] airChannels, String ID){
         m_ID = ID;
@@ -41,11 +41,12 @@ public class Intake extends SubsystemBase {
         m_PID.setFF(0.000091);
         m_motor.burnFlash();
 
-        SmartDashboard.putNumber("Set "+m_ID+" Intake RPM", m_RPM);
+        //SmartDashboard.putNumber("Set "+m_ID+" Intake RPM", m_RPM);
 
     }
 
-    public void run() {
+    public void run(double rpm) {
+        m_RPM = rpm;
         m_PID.setReference(m_RPM, ControlType.kVelocity);
     }
 
@@ -65,9 +66,9 @@ public class Intake extends SubsystemBase {
 
     @Override
     public void periodic() {
-        m_RPM = SmartDashboard.getNumber("Set "+m_ID+" Intake RPM", 8000);
-        SmartDashboard.putNumber(m_ID+" Intake Current", m_motor.getOutputCurrent());
-        SmartDashboard.putNumber(m_ID+" Intake Motor Temp", m_motor.getMotorTemperature());
+        //m_RPM = SmartDashboard.getNumber("Set "+m_ID+" Intake RPM", 8000);
+       // SmartDashboard.putNumber(m_ID+" Intake Current", m_motor.getOutputCurrent());
+       // SmartDashboard.putNumber(m_ID+" Intake Motor Temp", m_motor.getMotorTemperature());
         SmartDashboard.putNumber(m_ID+" Intake RPM", m_encoder.getVelocity());
     }
 

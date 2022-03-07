@@ -29,6 +29,8 @@ import frc.robot.Utilities.JoystickAnalogButton;
 import frc.robot.Utilities.JoystickAnalogButton.Side;
 import frc.robot.commands.DriveByController;
 import frc.robot.commands.FaceTurret;
+import frc.robot.commands.FeedShooter;
+import frc.robot.commands.IndexElevator;
 import frc.robot.commands.RunElevators;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.RunShooter;
@@ -59,8 +61,8 @@ public class RobotContainer {
   private final Intake m_leftIntake = new Intake(IntakeConstants.kLeftMotorID, IntakeConstants.kLeftAirPorts, "Left");
   private final Intake m_rightIntake = new Intake(IntakeConstants.kRightMotorID, IntakeConstants.kRightAirPorts, "Right");
   
-  private final Elevator m_lowElevator = new Elevator(ElevatorConstants.kLowMotorID, ElevatorConstants.kLowSensor, "Low");
-  private final Elevator m_highElevator = new Elevator(ElevatorConstants.kHighMotorID, ElevatorConstants.kHighSensor, "High");
+  private final Elevator m_lowElevator = new Elevator(ElevatorConstants.kLowMotorID, ElevatorConstants.kLowSensor, "Low",9000.0);
+  private final Elevator m_highElevator = new Elevator(ElevatorConstants.kHighMotorID, ElevatorConstants.kHighSensor, "High",10000.0);
 
   private final Climber m_climber = new Climber();
 
@@ -69,7 +71,10 @@ public class RobotContainer {
   private final Shooter m_shooter = new Shooter(ShooterConstants.kMotorIDs);
 
   private final ShooterHood m_hood = new ShooterHood();
-  private final ZeroClimb m_ZeroClimb = new ZeroClimb(m_climber);
+
+  private final IndexElevator m_indexElevator = new IndexElevator(m_highElevator, m_lowElevator);
+  private final FeedShooter m_feedShooter = new FeedShooter(m_turret, m_shooter, m_hood, m_highElevator, m_lowElevator);
+  //private final ZeroClimb m_ZeroClimb = new ZeroClimb(m_climber);
   private final ZeroHood m_ZeroHood = new ZeroHood(m_hood);
 
   private final RunIntake m_runLeftIntake = new RunIntake(m_leftIntake);
@@ -97,6 +102,8 @@ public class RobotContainer {
     m_turret.setDefaultCommand(m_faceTurret);
     m_robotDrive.setDefaultCommand(m_drive);
     m_climber.setDefaultCommand(new RunCommand(()->m_climber.run(), m_climber));
+    m_hood.setDefaultCommand(new RunCommand(()->m_hood.run(5.0),m_hood));
+    m_lowElevator.setDefaultCommand(m_indexElevator);
   }
 
   /**
@@ -124,9 +131,9 @@ public class RobotContainer {
     new JoystickButton(m_driverController, Button.kA.value).whenPressed(m_runShooter);
     new JoystickButton(m_driverController, Button.kB.value).whenPressed(()->m_runShooter.cancel());
 
-    new JoystickButton(m_driverController, Button.kX.value).toggleWhenPressed(m_runElevators);
+    new JoystickButton(m_driverController, Button.kRightBumper.value).whileHeld(m_feedShooter.withInterrupt(()->!m_runShooter.isScheduled()));
 
-    new JoystickButton(m_operatorController, Button.kStart.value).whenPressed(m_ZeroHood.withTimeout(2.0));
+    new JoystickButton(m_operatorController, Button.kStart.value).whenPressed(m_ZeroHood);
     new JoystickButton(m_operatorController, Button.kA.value).whenPressed(()->m_climber.extend());
     new JoystickButton(m_operatorController, Button.kB.value).whenPressed(()->m_climber.retract());
 

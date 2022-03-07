@@ -39,8 +39,8 @@ public class Turret extends PIDSubsystem {
         m_motor.setSmartCurrentLimit(CurrentLimit.kTurret);
         m_motor.enableVoltageCompensation(GlobalConstants.kVoltCompensation);
         m_motor.burnFlash();
-        SmartDashboard.putNumber("Turret Set", Math.PI);
         m_controller.setTolerance(TurretConstants.kTurretTolerance);
+        SmartDashboard.putBoolean("Limelight", false);
     }
 
     public double getMeasurement(){
@@ -78,7 +78,6 @@ public class Turret extends PIDSubsystem {
     //determine the updated setpoint for the turret
     if (m_trackTarget && Limelight.valid()) {
         angle = getMeasurement() - Limelight.tx();
-        SmartDashboard.putNumber("Limelight set Angle", angle);
       }
       //if the angle setpoint is lower than the minimum allowed position, set the setpoint to the minimum allowed position
       //and set the turret to search clockwise 
@@ -93,7 +92,6 @@ public class Turret extends PIDSubsystem {
         angle = TurretConstants.kTurretHigh;
       } 
       else{
-          SmartDashboard.putNumber("Setting Goal to", angle);
         setSetpoint(angle);
       }
 
@@ -112,6 +110,7 @@ public class Turret extends PIDSubsystem {
    * okay to shoot. Instead this fucntion is defined for when there is a valid solution and the limelight value is within the allowable
    * tolerance
    */
+
   public boolean visionAligned() {
     if (Limelight.valid() && Math.abs(Limelight.tx()) < VisionConstants.kTrackTolerance) {
       return true;
@@ -122,9 +121,18 @@ public class Turret extends PIDSubsystem {
 
     @Override
     protected void useOutput(double output, double setpoint) {
-        SmartDashboard.putNumber("Turret %", output);
-        m_motor.set(output);
-        
+        if(getMeasurement()>TurretConstants.kTurretHigh && output>0){
+            m_motor.set(-0.2);
+        }
+        else if(getMeasurement()<TurretConstants.kTurretLow && output<0){
+            m_motor.set(0.2);
+        }
+        else{
+            m_motor.set(output);
+        }
+    }
+    public boolean atSetpoint(){
+        return m_controller.atSetpoint();
     }
 
 }

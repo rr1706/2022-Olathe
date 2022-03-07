@@ -14,8 +14,8 @@ public final class Constants {
     public static final int kTurret = 30;
     public static final int kShooter = 40;
     public static final int kHood = 20;
-    public static final int kElevator = 20;
-    public static final int kTranslation = 35;
+    public static final int kElevator = 30;
+    public static final int kTranslation = 30;
     public static final int kRotation = 25;
     public static final int kClimber = 80;
   }
@@ -138,11 +138,11 @@ public final class Constants {
   }
 
   public static final class ElevatorConstants {
-    public static final int kLowMotorID = 16;
-    public static final int kHighMotorID = 17;
+    public static final int kLowMotorID = 17;
+    public static final int kHighMotorID = 16;
     public static final double []kPIDF = {0.00005,0,0,0.000091};
-    public static final int kLowSensor = 0;
-    public static final int kHighSensor = 1;
+    public static final int kLowSensor = 10;
+    public static final int kHighSensor = 11;
   }
 
   public static final class TurretConstants {
@@ -151,8 +151,8 @@ public final class Constants {
     public static final double kTurretTolerance = 0.0139626;    //allowable angle error in radians for the PIDSubsystem to report atSetpoint() to true
     public static final double[] kTurretPID = { 3.2, 0.0, 0 };  //Defines the PID values for rotation of the turret
     public static final double kStaticGain = 0.025;             //Limits Integral term so as to not wind up values when making larger moves
-    public static final double kTurretLow = 0.16;               //Minimum angle in radians allowed (defines the turret deadzone)
-    public static final double kTurretHigh = 6.12;              //Maximum angle in radians allowed (defines the turret deadzone)
+    public static final double kTurretLow = 0.26;               //Minimum angle in radians allowed (defines the turret deadzone)
+    public static final double kTurretHigh = 6.02;              //Maximum angle in radians allowed (defines the turret deadzone)
   }
 
   public static final class ClimberConstants {

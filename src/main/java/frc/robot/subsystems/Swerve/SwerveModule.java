@@ -124,7 +124,7 @@ public class SwerveModule {
     final double turnOutput = m_turningPIDController.calculate(getTurnEncoder(), state.angle.getRadians());
     //Set the turning motor to this output value
     m_turningMotor.set(turnOutput);
-    SmartDashboard.putNumber("TurnMotor"+moduleID, turnOutput);
+    //SmartDashboard.putNumber("TurnMotor"+moduleID, turnOutput);
   }
 
   public void stop(){
