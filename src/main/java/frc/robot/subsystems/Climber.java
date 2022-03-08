@@ -90,6 +90,10 @@ public class Climber extends SubsystemBase {
 
     }
 
+    public double getPose(){
+        return m_encoder.getPosition();
+    }
+
     public void stop() {
         m_motor1.stopMotor();
         m_motor2.stopMotor();
@@ -97,5 +101,9 @@ public class Climber extends SubsystemBase {
 
     public double getCurrent(){
         return m_motor1.getOutputCurrent()+m_motor2.getOutputCurrent();
+    }
+
+    public boolean atSetpoint(){
+        return Math.abs(getPose()-m_pose)<1.0;
     }
 }

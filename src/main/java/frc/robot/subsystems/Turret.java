@@ -134,6 +134,9 @@ public class Turret extends PIDSubsystem {
     public boolean atSetpoint(){
         return m_controller.atSetpoint();
     }
+    public void climbMode(){
+        setSetpoint(Math.PI);
+    }
 
 }
 

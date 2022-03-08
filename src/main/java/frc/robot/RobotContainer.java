@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
@@ -27,10 +28,12 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Utilities.JoystickAnalogButton;
 import frc.robot.Utilities.JoystickAnalogButton.Side;
+import frc.robot.commands.ClimbFromFloor;
 import frc.robot.commands.DriveByController;
 import frc.robot.commands.FaceTurret;
 import frc.robot.commands.FeedShooter;
 import frc.robot.commands.IndexElevator;
+import frc.robot.commands.InitiateClimbMode;
 import frc.robot.commands.RunElevators;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.RunShooter;
@@ -79,6 +82,10 @@ public class RobotContainer {
 
   private final RunIntake m_runLeftIntake = new RunIntake(m_leftIntake);
   private final RunIntake m_runRightIntake = new RunIntake(m_rightIntake);
+
+  private final InitiateClimbMode m_climbMode = new InitiateClimbMode(m_shooter, m_hood, m_turret, m_leftIntake, 
+    m_rightIntake, m_highElevator, m_lowElevator, m_robotDrive, m_driverController, m_climber);
+  private final ClimbFromFloor m_climbFromFloor = new ClimbFromFloor(m_climber);
 
   private final RunShooter m_runShooter = new RunShooter(m_shooter, m_turret, m_robotDrive, m_hood);
   private final RunElevators m_runElevators = new RunElevators(m_lowElevator, m_highElevator);
@@ -137,7 +144,10 @@ public class RobotContainer {
     new JoystickButton(m_operatorController, Button.kA.value).whenPressed(()->m_climber.extend());
     new JoystickButton(m_operatorController, Button.kB.value).whenPressed(()->m_climber.retract());
 
+    new JoystickButton(m_operatorController, Button.kBack.value).whenPressed(m_climbMode);
+    new JoystickButton(m_operatorController, Button.kStart.value).whenPressed(()->m_climbMode.cancel());
 
+    new JoystickButton(m_operatorController, Button.kA.value).whenPressed(new ConditionalCommand(m_climbFromFloor, new WaitCommand(0.0), ()->m_climbMode.isScheduled()));
   }
 
 private void configureAutoChooser(){
