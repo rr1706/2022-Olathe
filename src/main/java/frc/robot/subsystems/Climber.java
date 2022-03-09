@@ -22,17 +22,18 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Climber extends SubsystemBase {
 
-    private double m_pose = 0.0;
+    private double m_pose = 5.0;
     private final CANSparkMax m_motor1 = new CANSparkMax(ClimberConstants.kMotorID[0], MotorType.kBrushless);
     private final CANSparkMax m_motor2 = new CANSparkMax(ClimberConstants.kMotorID[1], MotorType.kBrushless);
     private final RelativeEncoder m_encoder = m_motor1.getEncoder();
     private final DoubleSolenoid m_valve = new DoubleSolenoid(GlobalConstants.PCHID,PneumaticsModuleType.REVPH, ClimberConstants.kValvePorts[0], ClimberConstants.kValvePorts[1]);
-    private final ProfiledPIDController m_PID = new ProfiledPIDController(0.25, 0, 0, new Constraints(2000, 1000));
+    private final ProfiledPIDController m_PID = new ProfiledPIDController(0.25, 0, 0, new Constraints(50, 20));
 
     public Climber() {
         m_motor1.setSmartCurrentLimit(CurrentLimit.kClimber);
         m_motor2.setSmartCurrentLimit(CurrentLimit.kClimber);
         m_motor1.enableVoltageCompensation(GlobalConstants.kVoltCompensation);
+        m_motor1.setInverted(true);
         m_motor2.follow(m_motor1, true);
        
         m_motor1.setIdleMode(IdleMode.kBrake);
@@ -70,8 +71,8 @@ public class Climber extends SubsystemBase {
         if(m_pose<0){
             m_pose = 0;
         }
-        else if(m_pose>80){
-            m_pose = 80;
+        else if(m_pose>85){
+            m_pose = 85;
         }
         m_motor1.set(m_PID.calculate(m_encoder.getPosition(), m_pose));
     }
@@ -81,7 +82,8 @@ public class Climber extends SubsystemBase {
         double pose = m_encoder.getPosition();
         //SmartDashboard.putBoolean("Running Climber", false);
         //m_pose = SmartDashboard.getNumber("Set Climber Pose", 0.0);
-        //SmartDashboard.putNumber("Climber Pose", pose);
+        SmartDashboard.putNumber("Climber Pose", pose);
+        SmartDashboard.putNumber("Climber Desried Pose", m_pose);
         //SmartDashboard.putNumber("Current 1", m_motor1.getOutputCurrent());
         //SmartDashboard.putNumber("Current 2", m_motor2.getOutputCurrent());
 

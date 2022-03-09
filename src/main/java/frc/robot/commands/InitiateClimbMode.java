@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Utilities.MathUtils;
@@ -26,7 +27,8 @@ public class InitiateClimbMode extends CommandBase {
     private final XboxController m_controller;   
     private final SlewRateLimiter m_slewX = new SlewRateLimiter(1.25);
     private final SlewRateLimiter m_slewY = new SlewRateLimiter(1.25);
-   
+   private boolean m_climbModeReady = false;
+
     public InitiateClimbMode(Shooter shooter, ShooterHood hood, Turret turret, Intake left, Intake right, 
         Elevator high, Elevator low, Drivetrain drive, XboxController controller, Climber climber){
         m_shooter = shooter;
@@ -72,11 +74,25 @@ public class InitiateClimbMode extends CommandBase {
             * DriveConstants.kMaxAngularSpeed/3.0,
         true);
 
-    if(m_turret.atSetpoint()){
-        m_climber.setDesiredPose(80.0);
+    if(m_turret.atSetpoint() && !m_climbModeReady){
+        m_climbModeReady = true;
+        m_climber.setDesiredPose(85.0);
     }
+    SmartDashboard.putBoolean("Climb Mode Ready", m_climbModeReady);
+    
   }
+
+  @Override
+  public void end(boolean interrupted){
+    m_climbModeReady = false;
+    m_climber.setDesiredPose(5.0);
+  }
+
   private double inputTransform(double input){
     return MathUtils.singedSquare(MathUtils.applyDeadband(input));
+  }
+
+  public boolean isClimbModeReady(){
+      return m_climbModeReady;
   }
 }

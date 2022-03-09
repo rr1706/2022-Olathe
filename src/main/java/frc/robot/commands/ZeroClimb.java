@@ -1,10 +1,12 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Climber;
 
 public class ZeroClimb extends CommandBase {
-    private Climber m_climber;
+    private final Climber m_climber;
+    private final Timer m_timer = new Timer();
 
 
     public ZeroClimb(Climber climber){
@@ -14,11 +16,14 @@ public class ZeroClimb extends CommandBase {
     @Override
     public void initialize(){
         m_climber.setPower(-0.10);
+        m_timer.reset();
+        m_timer.start();
     }
 
     @Override
     public void execute(){
-        if(m_climber.getCurrent()>60.0){
+        double time = m_timer.get();
+        if(m_climber.getCurrent()>60.0 && time>0.040){
             m_climber.setPoseRef(0.0);
             cancel();
         }
@@ -26,7 +31,8 @@ public class ZeroClimb extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        m_climber.setDesiredPose(0.0);      
+        m_climber.setDesiredPose(5.0);      
         m_climber.stop();
+        m_timer.stop();
     }
 }
