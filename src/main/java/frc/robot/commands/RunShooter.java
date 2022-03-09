@@ -7,13 +7,16 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.Constants.GoalConstants;
 import frc.robot.Utilities.LinearInterpolationTable;
+import frc.robot.Utilities.MathUtils;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.ShooterHood;
 import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Swerve.Drivetrain;
+
 import java.awt.geom.Point2D;
 
 public class RunShooter extends CommandBase {
@@ -40,6 +43,7 @@ public class RunShooter extends CommandBase {
             new Point2D.Double(200,38.0),
             new Point2D.Double(240,38.0)
         };
+
     private static LinearInterpolationTable m_hoodTable = new LinearInterpolationTable(m_hoodPoints);
 
     private static Point2D[] m_rpmPoints = 
@@ -62,7 +66,21 @@ public class RunShooter extends CommandBase {
 
     private static LinearInterpolationTable m_rpmTable = new LinearInterpolationTable(m_rpmPoints);
 
-    
+    private static double m_hoodCurve(double x) {
+        if (x <= 95.0) {
+            if (x < 60.4) {
+                return 5.0;
+            } else {
+
+            }
+        } else {
+            if (x > 184.3) {
+                return 38.0;
+            } else {
+                return poly();
+            }
+        }
+    }
 
     public RunShooter(Shooter shooter, Turret turret, Drivetrain drive,ShooterHood hood){
         m_shooter = shooter;

@@ -44,5 +44,15 @@ public class MathUtils {
           return input;
         }
       }
+
+    public static double poly(double x, Double[] c) {
+      double output = 0.0;
+
+      for (int i = 0; i <= c.length; i++) {
+        output += c[i] * Math.pow(x, i);
+      }
+
+      return output;
+    }
     
 }
