@@ -28,12 +28,12 @@ public class RunIntake extends CommandBase {
         {
             m_ballTime = currentTime;
             m_ballDetected = true;
-            m_intake.run(4000);
+            m_intake.run(5000);
         }
         else if(!m_ballDetected){
             m_intake.run(10000);
         }
-        else if(m_ballDetected && Math.abs(m_ballTime-currentTime)>0.500){
+        else if(m_ballDetected && Math.abs(m_ballTime-currentTime)>0.50){
             m_ballDetected = false;
             m_ballTime = 0.0;
             m_timer.reset();

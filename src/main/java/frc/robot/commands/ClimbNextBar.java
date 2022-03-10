@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Climber;
 
 public class ClimbNextBar extends CommandBase{
-    Climber m_climber;
-    boolean m_hasExtended = false;
-    boolean m_pastHooks = false;
+    private final Climber m_climber;
+    private boolean m_hasExtended = false;
+    private boolean m_pastHooks = false;
     public ClimbNextBar(Climber climber){
         m_climber = climber;
 
@@ -17,6 +17,8 @@ public class ClimbNextBar extends CommandBase{
     public void initialize(){
         m_climber.setDesiredPose(85);
         m_climber.run();
+        m_pastHooks = false;
+        m_hasExtended = false;
     }
     @Override
     public void execute(){
@@ -27,7 +29,7 @@ public class ClimbNextBar extends CommandBase{
         }
         if(m_climber.atSetpoint()&& !m_hasExtended){
                 m_climber.extend();
-                m_climber.setDesiredPose(0);
+                m_climber.setDesiredPose(-2.0);
                 m_hasExtended = true;
         }
         else if(m_climber.atSetpoint() && m_hasExtended && !m_pastHooks){
@@ -38,11 +40,9 @@ public class ClimbNextBar extends CommandBase{
 
     @Override 
     public void end(boolean interrupted){
-        m_hasExtended = false;
-        m_pastHooks = false;
     }
-
-    public boolean finishedClimb(){
+    @Override
+    public boolean isFinished(){
         return m_pastHooks;
     }
 }

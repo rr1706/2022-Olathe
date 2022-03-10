@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
@@ -70,13 +71,15 @@ public class SwerveModule {
     m_driveMotor.enableVoltageCompensation(GlobalConstants.kVoltCompensation);    //Enable voltage compensation so feedforward and gains scale with bus voltage
     m_driveMotor.setInverted(false);                                              //Motor direction is not inverted
     m_driveEncoder = m_driveMotor.getEncoder();                                   //Obtain the driveEncoder from the drive SparkMAX
-    m_driveEncoder.setVelocityConversionFactor(ModuleConstants.kVelocityFactor);  //Set velocity conversion factor so that encoder and PID control is in terms of velocity in m/s
+    m_driveEncoder.setVelocityConversionFactor(ModuleConstants.kVelocityFactor);
+    m_driveMotor.setIdleMode(IdleMode.kBrake);  //Set velocity conversion factor so that encoder and PID control is in terms of velocity in m/s
     m_driveMotor.burnFlash();                                                     //Write these parameters to the SparkMAX so we can be sure the values are correct
 
     m_turningMotor = new CANSparkMax(turningMotorChannel, MotorType.kBrushless);  //Define the drive motor as the SparkMAX with the input driveMotorChannel
     m_turningMotor.setSmartCurrentLimit(CurrentLimit.kRotation);       //Set current limit for the drive motor
     m_turningMotor.enableVoltageCompensation(GlobalConstants.kVoltCompensation);  //Enable voltage compensation so gains scale with bus voltage
-    m_turningMotor.setInverted(false);                                            //Motor direction is not inverted
+    m_turningMotor.setInverted(false);
+    m_turningMotor.setIdleMode(IdleMode.kBrake);                                            //Motor direction is not inverted
     m_turningMotor.burnFlash();                                                   //Write these parameters to the SparkMAX so we can be sure the values are correct
 
     //Creates the analog potentiometer for the tracking of the swerve module position converted to the range of 0-2*PI in radians offset by the tuned module offset

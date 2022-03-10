@@ -27,7 +27,7 @@ public class Climber extends SubsystemBase {
     private final CANSparkMax m_motor2 = new CANSparkMax(ClimberConstants.kMotorID[1], MotorType.kBrushless);
     private final RelativeEncoder m_encoder = m_motor1.getEncoder();
     private final DoubleSolenoid m_valve = new DoubleSolenoid(GlobalConstants.PCHID,PneumaticsModuleType.REVPH, ClimberConstants.kValvePorts[0], ClimberConstants.kValvePorts[1]);
-    private final ProfiledPIDController m_PID = new ProfiledPIDController(0.25, 0, 0, new Constraints(50, 20));
+    private final ProfiledPIDController m_PID = new ProfiledPIDController(0.25, 0, 0, new Constraints(92, 100));
 
     public Climber() {
         m_motor1.setSmartCurrentLimit(CurrentLimit.kClimber);
@@ -68,8 +68,8 @@ public class Climber extends SubsystemBase {
     }
 
     public void run(){
-        if(m_pose<0){
-            m_pose = 0;
+        if(m_pose<-2.0){
+            m_pose = -2.0;
         }
         else if(m_pose>85){
             m_pose = 85;
@@ -80,9 +80,11 @@ public class Climber extends SubsystemBase {
     @Override
     public void periodic() {
         double pose = m_encoder.getPosition();
+        double speed = m_encoder.getVelocity();
         //SmartDashboard.putBoolean("Running Climber", false);
         //m_pose = SmartDashboard.getNumber("Set Climber Pose", 0.0);
         SmartDashboard.putNumber("Climber Pose", pose);
+        SmartDashboard.putNumber("Climber Speed", speed);
         SmartDashboard.putNumber("Climber Desried Pose", m_pose);
         //SmartDashboard.putNumber("Current 1", m_motor1.getOutputCurrent());
         //SmartDashboard.putNumber("Current 2", m_motor2.getOutputCurrent());

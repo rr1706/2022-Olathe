@@ -10,13 +10,13 @@ public class ClimbFromFloor extends CommandBase {
     
     public ClimbFromFloor(Climber climber){
         m_climber = climber;
-        //addRequirements(climber);
     }
     
 
     @Override
     public void initialize(){
-        m_climber.setDesiredPose(0.0);
+        m_pastHooks = false;
+        m_climber.setDesiredPose(-2.0);
         m_climber.run();
     }
 
@@ -34,10 +34,13 @@ public class ClimbFromFloor extends CommandBase {
 
     @Override
     public void end(boolean interrupted){
-        m_pastHooks = false;
+        SmartDashboard.putBoolean("Cancel Floor Climb", true);
+        SmartDashboard.putBoolean("Climbing from Floor", false);
+
     }
 
-    public boolean finishedClimb(){
+    @Override
+    public boolean isFinished(){
         return m_pastHooks;
     }
 

@@ -106,7 +106,7 @@ private static LinearInterpolationTable angleTable = new LinearInterpolationTabl
         m_hoodMotor.stopMotor();
     }
     public boolean atSetpoint(){
-        return Math.abs(m_hoodAngle-getHoodAngle())<0.5;
+        return Math.abs(m_hoodAngle-getHoodAngle())<HoodConstants.kHoodTolerance;
     }
     
 }

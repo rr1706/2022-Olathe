@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CurrentLimit;
 import frc.robot.Constants.GlobalConstants;
+import frc.robot.Constants.ShooterConstants;
 
 public class Shooter extends SubsystemBase{
     private final CANSparkMax m_motor1;
@@ -44,7 +45,7 @@ public class Shooter extends SubsystemBase{
         m_motor1.burnFlash();
         m_motor2.burnFlash();
 
-        m_PID.setTolerance(35.0);
+        m_PID.setTolerance(ShooterConstants.kShotRPMTolerance);
         m_PID.setIntegratorRange(-0.015, 0.015);
 
         //SmartDashboard.putNumber("SetShotRPM", m_RPM);

@@ -78,7 +78,6 @@ public class InitiateClimbMode extends CommandBase {
         m_climbModeReady = true;
         m_climber.setDesiredPose(85.0);
     }
-    SmartDashboard.putBoolean("Climb Mode Ready", m_climbModeReady);
     
   }
 

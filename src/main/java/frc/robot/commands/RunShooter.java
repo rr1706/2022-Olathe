@@ -21,6 +21,7 @@ public class RunShooter extends CommandBase {
     private final Turret m_turret;
     private final Drivetrain m_drive;
     private final ShooterHood m_hood;
+    private final boolean m_updatePose;
     private final Timer m_timer = new Timer();
 
     private static Point2D[] m_hoodPoints = 
@@ -64,11 +65,12 @@ public class RunShooter extends CommandBase {
 
     
 
-    public RunShooter(Shooter shooter, Turret turret, Drivetrain drive,ShooterHood hood){
+    public RunShooter(Shooter shooter, Turret turret, Drivetrain drive,ShooterHood hood, boolean updatePose){
         m_shooter = shooter;
         m_turret = turret;
         m_drive = drive;
         m_hood = hood;
+        m_updatePose = updatePose;
         addRequirements(shooter, turret, hood);
     }
 
@@ -92,6 +94,11 @@ public class RunShooter extends CommandBase {
             m_shooter.run(SmartDashboard.getNumber("SetShotRPM", 2500));
             m_hood.run(SmartDashboard.getNumber("SetHoodAngle", 10.0));
         }
+        else if(Limelight.valid()){
+            dist = Limelight.getDistance();
+            m_shooter.run(m_rpmTable.getOutput(dist));
+            m_hood.run(m_hoodTable.getOutput(dist));
+        }
         else{
         m_shooter.run(m_rpmTable.getOutput(dist));
         m_hood.run(m_hoodTable.getOutput(dist));
@@ -112,8 +119,9 @@ public class RunShooter extends CommandBase {
     
             //SmartDashboard.putNumber("Calc Xin", pose.getX()*39.37);
             //SmartDashboard.putNumber("Calc Yin", pose.getY()*39.37);
-    
-              m_drive.setPose(pose);
+            if(m_updatePose){
+                m_drive.setPose(pose);
+            }
     
         }
     }

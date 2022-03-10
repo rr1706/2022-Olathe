@@ -66,7 +66,7 @@ public class RobotContainer {
   private final Intake m_leftIntake = new Intake(IntakeConstants.kLeftMotorID, IntakeConstants.kLeftAirPorts, "Left");
   private final Intake m_rightIntake = new Intake(IntakeConstants.kRightMotorID, IntakeConstants.kRightAirPorts, "Right");
   
-  private final Elevator m_lowElevator = new Elevator(ElevatorConstants.kLowMotorID, ElevatorConstants.kLowSensor, "Low",9000.0);
+  private final Elevator m_lowElevator = new Elevator(ElevatorConstants.kLowMotorID, ElevatorConstants.kLowSensor, "Low",10000.0);
   private final Elevator m_highElevator = new Elevator(ElevatorConstants.kHighMotorID, ElevatorConstants.kHighSensor, "High",10000.0);
 
   private final Climber m_climber = new Climber();
@@ -78,7 +78,7 @@ public class RobotContainer {
   private final ShooterHood m_hood = new ShooterHood();
 
   private final IndexElevator m_indexElevator = new IndexElevator(m_highElevator, m_lowElevator);
-  private final FeedShooter m_feedShooter = new FeedShooter(m_turret, m_shooter, m_hood, m_highElevator, m_lowElevator);
+  private final FeedShooter m_feedShooter = new FeedShooter(m_turret, m_shooter, m_hood, m_highElevator, m_lowElevator, m_robotDrive);
   private final ZeroClimb m_ZeroClimb = new ZeroClimb(m_climber);
   private final ZeroHood m_ZeroHood = new ZeroHood(m_hood);
 
@@ -91,14 +91,14 @@ public class RobotContainer {
   private final ClimbNextBar m_climbToHigh= new ClimbNextBar(m_climber);
   private final ClimbNextBar m_climbToTraversal= new ClimbNextBar(m_climber);
 
-  private final RunShooter m_runShooter = new RunShooter(m_shooter, m_turret, m_robotDrive, m_hood);
+  private final RunShooter m_runShooter = new RunShooter(m_shooter, m_turret, m_robotDrive, m_hood, true);
   private final RunElevators m_runElevators = new RunElevators(m_lowElevator, m_highElevator);
 
   private final DriveByController m_drive = new DriveByController(m_robotDrive, m_driverController);
 
   private final FaceTurret m_faceTurret = new FaceTurret(m_turret, m_robotDrive); // Create FaceTurret Command
 
-  private final Command autoFiveBall = new WaitCommand(20.0); //new FiveBall(m_robotDrive, m_leftIntake, m_rightIntake, m_lowElevator, m_highElevator, m_turret, m_hood, m_shooter);
+  private final Command autoFiveBall = new FiveBall(m_robotDrive, m_leftIntake, m_rightIntake, m_lowElevator, m_highElevator, m_turret, m_hood, m_shooter, m_climber);
   private final Command autoThreeBall = new WaitCommand(20.0);
   private final Command autoOneBall = new WaitCommand(20.0);
 
@@ -142,7 +142,7 @@ public class RobotContainer {
     new JoystickButton(m_driverController, Button.kA.value).whenPressed(m_runShooter);
     new JoystickButton(m_driverController, Button.kB.value).whenPressed(()->m_runShooter.cancel());
 
-    new JoystickButton(m_driverController, Button.kRightBumper.value).whileHeld(m_feedShooter.withInterrupt(()->!m_runShooter.isScheduled()));
+    new JoystickButton(m_driverController, Button.kRightBumper.value).whenPressed(m_feedShooter.withInterrupt(()->!m_runShooter.isScheduled())).whenReleased(()->m_feedShooter.stop());
 
     new JoystickButton(m_operatorController, Button.kRightBumper.value).whenPressed(m_ZeroHood);
     new JoystickButton(m_operatorController, Button.kLeftBumper.value).whenPressed(m_ZeroClimb);
@@ -152,9 +152,10 @@ public class RobotContainer {
     new JoystickButton(m_operatorController, Button.kBack.value).whenPressed(m_climbMode);
     new JoystickButton(m_operatorController, Button.kStart.value).whenPressed(()->m_climbMode.cancel());
 
-    new JoystickButton(m_operatorController, Button.kA.value).whenPressed(new ConditionalCommand(m_climbFromFloor, new InstantCommand(()->m_climbFromFloor.cancel()), ()->m_climbMode.isClimbModeReady()));
-    new JoystickButton(m_operatorController, Button.kX.value).whenPressed(new ConditionalCommand(m_climbToHigh, new InstantCommand(()->m_climbToHigh.cancel()), ()->m_climbFromFloor.finishedClimb()));
-    new JoystickButton(m_operatorController, Button.kY.value).whenPressed(new ConditionalCommand(m_climbToTraversal, new InstantCommand(()->m_climbToTraversal.cancel()), ()->m_climbToHigh.finishedClimb()));
+    new JoystickButton(m_operatorController, Button.kA.value).whenPressed(new ConditionalCommand(m_climbFromFloor, new WaitCommand(0.0), ()->m_climbMode.isClimbModeReady()));
+    new JoystickButton(m_operatorController, Button.kX.value).whenPressed(new ConditionalCommand(m_climbToHigh, new WaitCommand(0.0), ()->m_climbFromFloor.isFinished()));
+    new JoystickButton(m_operatorController, Button.kY.value).whenPressed(new ConditionalCommand(m_climbToTraversal, new WaitCommand(0.0), ()->m_climbToHigh.isFinished()));
+    // new JoystickButton(m_operatorController, Button.kB.value).whenPressed(m_climbFromFloor.andThen(m_climbToHigh).andThen(m_climbToTraversal));
 
   }
 
