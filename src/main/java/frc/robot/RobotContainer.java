@@ -40,8 +40,11 @@ import frc.robot.commands.RunIntake;
 import frc.robot.commands.RunShooter;
 import frc.robot.commands.ZeroClimb;
 import frc.robot.commands.ZeroHood;
+import frc.robot.commands.Autos.EMERGENCYNOBALL;
 import frc.robot.commands.Autos.FiveBall;
 import frc.robot.commands.Autos.SixBall;
+import frc.robot.commands.Autos.TwoBallOne;
+import frc.robot.commands.Autos.TwoBallTwo;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
@@ -101,8 +104,10 @@ public class RobotContainer {
 
   private final Command autoFiveBall = new FiveBall(m_robotDrive, m_leftIntake, m_rightIntake, m_lowElevator, m_highElevator, m_turret, m_hood, m_shooter, m_climber);
   private final Command autoSixBall = new SixBall(m_robotDrive, m_leftIntake, m_rightIntake, m_lowElevator, m_highElevator, m_turret, m_hood, m_shooter, m_climber);
-  private final Command autoThreeBall = new WaitCommand(20.0);
-  private final Command autoOneBall = new WaitCommand(20.0);
+  private final Command autoTwoBallOne = new TwoBallOne(m_robotDrive, m_leftIntake, m_rightIntake, m_lowElevator, m_highElevator, m_turret, m_hood, m_shooter, m_climber);
+  private final Command autoTwoBallTwo = new TwoBallTwo(m_robotDrive, m_leftIntake, m_rightIntake, m_lowElevator, m_highElevator, m_turret, m_hood, m_shooter, m_climber);
+  private final Command emergencyNoBall = new EMERGENCYNOBALL(m_robotDrive, m_leftIntake, m_rightIntake, m_lowElevator, m_highElevator, m_turret, m_hood, m_shooter, m_climber);
+  private final Command doNothin = new WaitCommand(15.0);
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -162,10 +167,12 @@ public class RobotContainer {
   }
 
 private void configureAutoChooser(){
-  m_chooser.addOption("Auto3Ball", autoThreeBall);
+  m_chooser.addOption("Auto2BallOne", autoTwoBallOne);
+  m_chooser.addOption("Auto2BallTwo", autoTwoBallTwo);
   m_chooser.addOption("Auto5Ball", autoFiveBall);
   m_chooser.addOption("Auto6Ball", autoSixBall);
-  m_chooser.setDefaultOption("Auto1Ball", autoOneBall);
+  m_chooser.addOption("Do Nothing", doNothin);
+  m_chooser.setDefaultOption("Emergency No Ball", emergencyNoBall);
   SmartDashboard.putData(m_chooser);  
 }
 
