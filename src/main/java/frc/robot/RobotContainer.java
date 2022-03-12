@@ -41,7 +41,7 @@ import frc.robot.commands.RunShooter;
 import frc.robot.commands.ZeroClimb;
 import frc.robot.commands.ZeroHood;
 import frc.robot.commands.Autos.FiveBall;
-//import frc.robot.commands.Autos.SixBall;
+import frc.robot.commands.Autos.SixBall;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
@@ -100,7 +100,7 @@ public class RobotContainer {
   private final FaceTurret m_faceTurret = new FaceTurret(m_turret, m_robotDrive); // Create FaceTurret Command
 
   private final Command autoFiveBall = new FiveBall(m_robotDrive, m_leftIntake, m_rightIntake, m_lowElevator, m_highElevator, m_turret, m_hood, m_shooter, m_climber);
-  //private final Command autoSixBall = new SixBall(m_robotDrive, m_leftIntake, m_rightIntake, m_lowElevator, m_highElevator, m_turret, m_hood, m_shooter, m_climber);
+  private final Command autoSixBall = new SixBall(m_robotDrive, m_leftIntake, m_rightIntake, m_lowElevator, m_highElevator, m_turret, m_hood, m_shooter, m_climber);
   private final Command autoThreeBall = new WaitCommand(20.0);
   private final Command autoOneBall = new WaitCommand(20.0);
 
@@ -115,7 +115,7 @@ public class RobotContainer {
     m_turret.setDefaultCommand(m_faceTurret);
     m_robotDrive.setDefaultCommand(m_drive);
     m_climber.setDefaultCommand(new RunCommand(()->m_climber.run(), m_climber));
-    m_hood.setDefaultCommand(new RunCommand(()->m_hood.run(5.0),m_hood));
+    m_hood.setDefaultCommand(new RunCommand(()->m_hood.run(0.5),m_hood));
     m_lowElevator.setDefaultCommand(m_indexElevator);
   }
 
@@ -144,7 +144,7 @@ public class RobotContainer {
     new JoystickButton(m_driverController, Button.kA.value).whenPressed(m_runShooter);
     new JoystickButton(m_driverController, Button.kB.value).whenPressed(()->m_runShooter.cancel());
 
-    new JoystickButton(m_driverController, Button.kRightBumper.value).whenPressed(m_feedShooter.withInterrupt(()->!m_runShooter.isScheduled())).whenReleased(()->m_feedShooter.stop());
+    new JoystickButton(m_driverController, Button.kRightBumper.value).whenPressed(m_feedShooter).whenReleased(()->m_feedShooter.stop());
 
     new JoystickButton(m_operatorController, Button.kRightBumper.value).whenPressed(m_ZeroHood);
     new JoystickButton(m_operatorController, Button.kLeftBumper.value).whenPressed(m_ZeroClimb);
@@ -164,7 +164,7 @@ public class RobotContainer {
 private void configureAutoChooser(){
   m_chooser.addOption("Auto3Ball", autoThreeBall);
   m_chooser.addOption("Auto5Ball", autoFiveBall);
-  //m_chooser.addOption("Auto6Ball", autoSixBall);
+  m_chooser.addOption("Auto6Ball", autoSixBall);
   m_chooser.setDefaultOption("Auto1Ball", autoOneBall);
   SmartDashboard.putData(m_chooser);  
 }
@@ -177,5 +177,14 @@ private void configureAutoChooser(){
   public Command getAuto() {
     // An ExampleCommand will run in autonomous
     return m_chooser.getSelected();
+  }
+
+    /**
+   * Use this to pass the test command to the main {@link Robot} class.
+   *
+   * @return the command to run in autonomous
+   */
+  public Command getTest() {
+    return new ZeroClimb(m_climber).alongWith(new ZeroHood(m_hood)).andThen(new RunCommand(()->m_climber.stop(), m_climber).alongWith(new RunCommand(()->m_hood.stop(),m_hood)));
   }
 }

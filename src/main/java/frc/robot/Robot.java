@@ -18,6 +18,7 @@ import frc.robot.subsystems.Limelight;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
+  private Command m_testCommand;
 
   private RobotContainer m_robotContainer;
 
@@ -85,6 +86,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    CommandScheduler.getInstance().cancelAll();
   }
 
   /** This function is called periodically during operator control. */
@@ -94,7 +96,12 @@ public class Robot extends TimedRobot {
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
-    CommandScheduler.getInstance().cancelAll();
+    m_testCommand = m_robotContainer.getTest();
+
+    // schedule the autonomous command (example)
+    if (m_testCommand != null) {
+      m_testCommand.schedule();
+    }
   }
 
   /** This function is called periodically during test mode. */

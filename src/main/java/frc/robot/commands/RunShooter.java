@@ -27,17 +27,17 @@ public class RunShooter extends CommandBase {
     private static Point2D[] m_hoodPoints = 
         new Point2D.Double[]{
             //(ty-angle,distance)
-            new Point2D.Double(35,5.0),
-            new Point2D.Double(50,5.0),
-            new Point2D.Double(65,5.75),
-            new Point2D.Double(80,10.0),
-            new Point2D.Double(95,22),
-            new Point2D.Double(110,24),
-            new Point2D.Double(125,27),
-            new Point2D.Double(140,30),
-            new Point2D.Double(155,33.5),
-            new Point2D.Double(170,36.4),
-            new Point2D.Double(185,38.0),
+            new Point2D.Double(35,0.0),
+            new Point2D.Double(50,0.0),
+            new Point2D.Double(65,0),
+            new Point2D.Double(80,8.83),
+            new Point2D.Double(95,15.3),
+            new Point2D.Double(110,20.0),
+            new Point2D.Double(125,24.5),
+            new Point2D.Double(140,27.5),
+            new Point2D.Double(155,29.7),
+            new Point2D.Double(170,32.7),
+            new Point2D.Double(185,35.03),
             new Point2D.Double(200,38.0),
             new Point2D.Double(240,38.0)
         };
@@ -48,17 +48,17 @@ public class RunShooter extends CommandBase {
             //(ty-angle,distance)
             new Point2D.Double(35,2350),
             new Point2D.Double(50,2350),
-            new Point2D.Double(65,2400),
-            new Point2D.Double(80,2450),
-            new Point2D.Double(95,2475),
+            new Point2D.Double(65,2364),
+            new Point2D.Double(80,2397),
+            new Point2D.Double(95,2418),
             new Point2D.Double(110,2500),
-            new Point2D.Double(125,2550),
-            new Point2D.Double(140,2615),
-            new Point2D.Double(155,2775),
-            new Point2D.Double(170,2925),
-            new Point2D.Double(185,3125),
-            new Point2D.Double(200,3275),
-            new Point2D.Double(240,3500)
+            new Point2D.Double(125,2568),
+            new Point2D.Double(140,2636),
+            new Point2D.Double(155,2756),
+            new Point2D.Double(170,2910),
+            new Point2D.Double(185,3080),
+            new Point2D.Double(200,3250),
+            new Point2D.Double(240,3570)
         };
 
     private static LinearInterpolationTable m_rpmTable = new LinearInterpolationTable(m_rpmPoints);

@@ -28,11 +28,13 @@ public class SixBall extends SequentialCommandGroup{
         final AutoFromPathPlanner fiveBallUno = new AutoFromPathPlanner(drivetrain, "20225BallAuto-uno", 3.2);
         final AutoFromPathPlanner fiveBallDos = new AutoFromPathPlanner(drivetrain, "20225BallAuto-dos", 3.2);
         final AutoFromPathPlanner fiveBallTres = new AutoFromPathPlanner(drivetrain, "20225BallAuto-tres", 3.2);
-        final AutoFromPathPlanner fiveBallQuatro = new AutoFromPathPlanner(drivetrain, "20225BallAuto-quatro-alt", 3.2);
+        final AutoFromPathPlanner sixBallQuatro = new AutoFromPathPlanner(drivetrain, "20226BallAuto-quatro", 3.2);
+        final AutoFromPathPlanner sixBallCinco = new AutoFromPathPlanner(drivetrain, "20226BallAuto-cinco", 3.2);
 
         final FeedShooter m_autoFeed = new FeedShooter(turret, shooter, hood, top, bottom, drivetrain);
         final FeedShooter m_autoFeed2 = new FeedShooter(turret, shooter, hood, top, bottom, drivetrain);
         final FeedShooter m_autoFeed3 = new FeedShooter(turret, shooter, hood, top, bottom, drivetrain);
+        final FeedShooter m_autoFeed4 = new FeedShooter(turret, shooter, hood, top, bottom, drivetrain);
 
         addCommands(
             
@@ -45,9 +47,12 @@ public class SixBall extends SequentialCommandGroup{
                     m_autoFeed.raceWith(new WaitCommand(1.0).andThen(new InstantCommand(()->m_autoFeed.stop()))), 
                     fiveBallDos.raceWith(new RunIntake(rightIntake).alongWith(new IndexElevator(top, bottom))),
                     m_autoFeed2.raceWith(new WaitCommand(1.0).andThen(new InstantCommand(()->m_autoFeed2.stop()))),
-                    fiveBallTres.andThen(new WaitCommand(1.0)).raceWith(new RunIntake(rightIntake).alongWith(new IndexElevator(top, bottom))),
-                    fiveBallQuatro.raceWith(new RunIntake(leftIntake).alongWith(new IndexElevator(top, bottom))),
-                    m_autoFeed3.raceWith(new RunIntake(leftIntake), new WaitCommand(5.0).andThen(new InstantCommand(()->m_autoFeed3.stop())))
+                    fiveBallTres.raceWith(new RunIntake(rightIntake).alongWith(new IndexElevator(top, bottom))),
+                    sixBallQuatro.raceWith(new RunIntake(rightIntake).alongWith(new IndexElevator(top, bottom))),
+                    m_autoFeed3.raceWith(new WaitCommand(1.0).andThen(new InstantCommand(()->m_autoFeed3.stop()))),
+                    sixBallCinco.raceWith(new RunIntake(leftIntake).alongWith(new IndexElevator(top, bottom))),
+                    m_autoFeed4.raceWith(new WaitCommand(1.0).andThen(new InstantCommand(()->m_autoFeed4.stop())))
+
         )));
     }
     

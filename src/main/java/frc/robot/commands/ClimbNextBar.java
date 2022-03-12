@@ -29,7 +29,7 @@ public class ClimbNextBar extends CommandBase{
         }
         if(m_climber.atSetpoint()&& !m_hasExtended){
                 m_climber.extend();
-                m_climber.setDesiredPose(-2.0);
+                m_climber.setDesiredPose(-3.0);
                 m_hasExtended = true;
         }
         else if(m_climber.atSetpoint() && m_hasExtended && !m_pastHooks){
