@@ -68,11 +68,11 @@ public class Climber extends SubsystemBase {
     }
 
     public void run(){
-        if(m_pose<-2.0){
-            m_pose = -2.0;
+        if(m_pose<-4.0){
+            m_pose = -4.0;
         }
-        else if(m_pose>85){
-            m_pose = 85;
+        else if(m_pose>82){
+            m_pose = 82;
         }
         m_motor1.set(m_PID.calculate(m_encoder.getPosition(), m_pose));
     }
@@ -86,7 +86,7 @@ public class Climber extends SubsystemBase {
         SmartDashboard.putNumber("Climber Pose", pose);
         SmartDashboard.putNumber("Climber Speed", speed);
         SmartDashboard.putNumber("Climber Desried Pose", m_pose);
-        //SmartDashboard.putNumber("Current 1", m_motor1.getOutputCurrent());
+        SmartDashboard.putNumber("Climber Current", getCurrent());
         //SmartDashboard.putNumber("Current 2", m_motor2.getOutputCurrent());
 
         //SmartDashboard.putNumber("Motor 1 Temp", m_motor1.getMotorTemperature());

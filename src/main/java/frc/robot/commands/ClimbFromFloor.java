@@ -16,7 +16,7 @@ public class ClimbFromFloor extends CommandBase {
     @Override
     public void initialize(){
         m_pastHooks = false;
-        m_climber.setDesiredPose(-3.0);
+        m_climber.setDesiredPose(-4.0);
         m_climber.run();
     }
 

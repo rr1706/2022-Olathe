@@ -48,8 +48,9 @@ public class InitiateClimbMode extends CommandBase {
     @Override
     public void initialize(){
         m_shooter.stop();
+        m_turret.enable();
         m_turret.climbMode();
-        m_shooterHood.run(5.0);
+        m_shooterHood.run(1.0);
         m_leftIntake.stop();
         m_leftIntake.retract();
         m_rightIntake.stop();
@@ -76,7 +77,7 @@ public class InitiateClimbMode extends CommandBase {
 
     if(m_turret.atSetpoint() && !m_climbModeReady){
         m_climbModeReady = true;
-        m_climber.setDesiredPose(85.0);
+        m_climber.setDesiredPose(82.0);
     }
     
   }
@@ -84,6 +85,7 @@ public class InitiateClimbMode extends CommandBase {
   @Override
   public void end(boolean interrupted){
     m_climbModeReady = false;
+    m_turret.disable();
     m_climber.setDesiredPose(5.0);
   }
 
