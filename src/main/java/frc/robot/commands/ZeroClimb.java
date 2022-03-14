@@ -7,7 +7,7 @@ import frc.robot.subsystems.Climber;
 public class ZeroClimb extends CommandBase {
     private final Climber m_climber;
     private final Timer m_timer = new Timer();
-
+    private boolean m_finished = false;
 
     public ZeroClimb(Climber climber){
         m_climber = climber;
@@ -16,6 +16,7 @@ public class ZeroClimb extends CommandBase {
     @Override
     public void initialize(){
         m_climber.setPower(-0.10);
+        m_finished = false;
         m_timer.reset();
         m_timer.start();
     }
@@ -23,10 +24,12 @@ public class ZeroClimb extends CommandBase {
     @Override
     public void execute(){
         double time = m_timer.get();
-        if(m_climber.getCurrent()>60.0 && time>0.040){
+        if(m_climber.getLimit() && time>0.040){
+            m_climber.stop();
             m_climber.setPoseRef(0.0);
-            cancel();
-        }
+            m_climber.setDesiredPose(1.0);
+            m_finished = true;
+                }
     }
 
     @Override
@@ -34,5 +37,9 @@ public class ZeroClimb extends CommandBase {
         m_climber.setDesiredPose(5.0);      
         m_climber.stop();
         m_timer.stop();
+    }
+    @Override
+    public boolean isFinished(){
+        return m_finished;
     }
 }

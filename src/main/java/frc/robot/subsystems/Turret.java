@@ -26,8 +26,6 @@ public class Turret extends PIDSubsystem {
     private final AnalogPotentiometer m_encoder = new AnalogPotentiometer(4, 2*Math.PI*1.011, -0.007636);
     private final CANSparkMax m_motor = new CANSparkMax(14, MotorType.kBrushed);
     private boolean m_trackTarget = false;
-    private double m_pose = Math.PI;
-    private boolean searchClockwise = true; //creates boolean to indicate if the turret is searching clockwise for a target 
 
     public Turret(){
         super(new PIDController(
@@ -82,13 +80,11 @@ public class Turret extends PIDSubsystem {
       //if the angle setpoint is lower than the minimum allowed position, set the setpoint to the minimum allowed position
       //and set the turret to search clockwise 
       if (angle < TurretConstants.kTurretLow) {
-        searchClockwise = true;
         angle = TurretConstants.kTurretLow;
       } 
       //if the angle setpoint is hgiher than the maximum allowed position, set the setpoint to the maximum allowed position
       //and set the turret to search counter clockwise 
       else if (angle > TurretConstants.kTurretHigh) {
-        searchClockwise = false;
         angle = TurretConstants.kTurretHigh;
       } 
       else{

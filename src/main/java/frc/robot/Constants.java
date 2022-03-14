@@ -44,7 +44,7 @@ public final class Constants {
     public static final int kBackRightTurningEncoderPort = 2;   //Analog Port of the Module Absolute Encoder
 
     public static final double kFrontLeftOffset = -1.1634-0.269-0.346+3.141593;  //Encoder Offset in Radians
-    public static final double kFrontRightOffset = 1.5366-4.870+3.14159-3.482;  //Encoder Offset in Radians
+    public static final double kFrontRightOffset = 1.5366-4.870+3.14159-3.482-2.180;  //Encoder Offset in Radians
     public static final double kBackLeftOffset = -0.0884-5.55;   //Encoder Offset in Radians
     public static final double kBackRightOffset = -1.6194+0.542+3.14159;  //Encoder Offset in Radians
 
@@ -92,7 +92,7 @@ public final class Constants {
   public static final class ModuleConstants {
     public static final double kTranslationRampRate = 3.0;          //Units of %power/s, ie 4.0 means it takes 0.25s to reach 100% power from 0%
     private static final double kTranslationGearRatio = 8.33333333; //Overall gear ratio of the swerve module
-    private static final double kWheelDiameter = 0.09845*0.9685*1.015;           //Wheel Diameter in meters, may need to be experimentally determined due to compliance of floor/tread material
+    private static final double kWheelDiameter = 0.0986;           //Wheel Diameter in meters, may need to be experimentally determined due to compliance of floor/tread material
 
     public static final double kVelocityFactor = (1.0 / kTranslationGearRatio / 60.0) * kWheelDiameter * Math.PI; //Calculates the conversion factor of RPM of the translation motor to m/s at the floor
 

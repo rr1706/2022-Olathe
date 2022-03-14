@@ -14,10 +14,10 @@ import frc.robot.subsystems.Swerve.Drivetrain;
 public class EMERGENCYNOBALL extends SequentialCommandGroup {
 
     public EMERGENCYNOBALL(Drivetrain drivetrain, Intake leftIntake, Intake rightIntake, Elevator bottom, Elevator top, Turret turret, ShooterHood hood, Shooter shooter, Climber climb){
-        final AutoFromPathPlanner fiveBallUno = new AutoFromPathPlanner(drivetrain, "2022-EMERGENCYNOBALL", 3.2);
+        final AutoFromPathPlanner drivePath = new AutoFromPathPlanner(drivetrain, "2022-EMERGENCYNOBALL", 3.2);
         
 
-        addCommands(fiveBallUno);
+        addCommands(drivePath);
     }
         
 }

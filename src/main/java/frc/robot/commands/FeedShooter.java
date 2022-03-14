@@ -40,9 +40,9 @@ public class FeedShooter extends CommandBase{
 
     @Override
     public void execute(){
-        boolean isRobotMoving = Math.abs(m_drive.getChassisSpeed().vxMetersPerSecond)>0.05 || Math.abs(m_drive.getChassisSpeed().vyMetersPerSecond)>0.05 || Math.abs(m_drive.getChassisSpeed().omegaRadiansPerSecond)>0.05;
+        boolean isRobotMoving = Math.abs(m_drive.getChassisSpeed().vxMetersPerSecond)>0.25 || Math.abs(m_drive.getChassisSpeed().vyMetersPerSecond)>0.25 || Math.abs(m_drive.getChassisSpeed().omegaRadiansPerSecond)>0.25;
         boolean canShoot = m_turret.atSetpoint() && !isRobotMoving;
-            if(true){
+            if(canShoot){
                 m_top.run();
                 if(m_timer.get()>0.100){
                     m_bottom.run();

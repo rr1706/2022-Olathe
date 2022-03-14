@@ -23,7 +23,11 @@ import frc.robot.subsystems.Swerve.Drivetrain;
 
 public class FiveBall extends SequentialCommandGroup{
  
+    private final Drivetrain m_drive;
+
     public FiveBall(Drivetrain drivetrain, Intake leftIntake, Intake rightIntake, Elevator bottom, Elevator top, Turret turret, ShooterHood hood, Shooter shooter, Climber climb){
+
+        m_drive = drivetrain;
 
         final AutoFromPathPlanner fiveBallUno = new AutoFromPathPlanner(drivetrain, "20225BallAuto-uno", 3.2);
         final AutoFromPathPlanner fiveBallDos = new AutoFromPathPlanner(drivetrain, "20225BallAuto-dos", 3.2);
@@ -37,7 +41,8 @@ public class FiveBall extends SequentialCommandGroup{
         addCommands(
             
             new InstantCommand(()->drivetrain.resetOdometry(fiveBallUno.getInitialPose())),
-            //new ZeroHood(hood),
+            new InstantCommand(()->climb.extend()),
+            new ZeroHood(hood), new ZeroClimb(climb),
             new ParallelCommandGroup(
                 new RunShooter(shooter, turret, drivetrain, hood, false),
                 new SequentialCommandGroup(
@@ -53,6 +58,7 @@ public class FiveBall extends SequentialCommandGroup{
     
     @Override
     public void end(boolean interrupted){
-        
+        m_drive.updateKeepAngle();
+        m_drive.stop();
     }
 }

@@ -87,8 +87,8 @@ import frc.robot.Constants.*;
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
     rot = performKeepAngle(xSpeed,ySpeed,rot); //Calls the keep angle function to update the keep angle or rotate depending on driver input
     
-    SmartDashboard.putNumber("xSpeed Commanded", xSpeed);
-    SmartDashboard.putNumber("ySpeed Commanded", ySpeed);
+    //SmartDashboard.putNumber("xSpeed Commanded", xSpeed);
+   // SmartDashboard.putNumber("ySpeed Commanded", ySpeed);
 
     //creates an array of the desired swerve module states based on driver command and if the commands are field relative or not
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
@@ -240,6 +240,10 @@ import frc.robot.Constants.*;
       output = m_keepAnglePID.calculate(getGyro().getRadians(), keepAngle);               //Set output command to the result of the Keep Angle PID 
     }
     return output;
+  }
+
+  public void updateKeepAngle(){
+    keepAngle = getGyro().getRadians();
   }
 
 }

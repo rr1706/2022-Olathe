@@ -8,6 +8,7 @@ import frc.robot.subsystems.ShooterHood;
 public class ZeroHood extends CommandBase {
     private ShooterHood m_hood;
     private Timer m_timer = new Timer();
+    private boolean m_finished = false;
 
     public ZeroHood(ShooterHood hood){
         m_hood = hood;
@@ -17,6 +18,7 @@ public class ZeroHood extends CommandBase {
     public void initialize(){
         m_timer.reset();
         m_timer.start();
+        m_finished = false;
         m_hood.setHood(-0.10);
     }
 
@@ -24,11 +26,10 @@ public class ZeroHood extends CommandBase {
     public void execute(){
         double time = m_timer.get();
         double current = m_hood.getTotalCurrent();
-        SmartDashboard.putNumber("Hood Current", current);
         if(current>19.5 && time >0.040){
-            SmartDashboard.putBoolean("Canceling", true);
+            m_hood.stop();
             m_hood.setHoodZero();
-            cancel();
+            m_finished = true;
         }
     }
 
@@ -36,4 +37,10 @@ public class ZeroHood extends CommandBase {
     public void end(boolean interrupted) {
         m_timer.stop();
     }
+
+    @Override
+    public boolean isFinished(){
+        return m_finished;
+    }
+
 }

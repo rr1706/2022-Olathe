@@ -20,7 +20,7 @@ import frc.robot.subsystems.Swerve.Drivetrain;
 public class TwoBallOne extends SequentialCommandGroup {
 
     public TwoBallOne(Drivetrain drivetrain, Intake leftIntake, Intake rightIntake, Elevator bottom, Elevator top, Turret turret, ShooterHood hood, Shooter shooter, Climber climb){
-        final AutoFromPathPlanner fiveBallUno = new AutoFromPathPlanner(drivetrain, "2022-2Ball-One", 3.2);
+        final AutoFromPathPlanner fiveBallUno = new AutoFromPathPlanner(drivetrain, "2022-2BallAuto-One", 3.2);
         final RunIntake runIntake = new RunIntake(leftIntake);
         final FeedShooter m_autoFeed = new FeedShooter(turret, shooter, hood, top, bottom, drivetrain);
 

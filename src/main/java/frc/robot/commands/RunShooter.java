@@ -146,7 +146,7 @@ public class RunShooter extends CommandBase {
         double speed = Math.sqrt(Math.pow(input.vxMetersPerSecond,2)+Math.pow(input.vyMetersPerSecond, 2));
         double angleSpeed = Math.abs(input.omegaRadiansPerSecond);
     
-        if(speed > 0.500 || angleSpeed > 0.020){
+        if(speed > 1.000 || angleSpeed > 0.050){
             return true;
         }
         else{
