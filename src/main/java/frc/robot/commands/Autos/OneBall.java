@@ -17,10 +17,10 @@ import frc.robot.subsystems.ShooterHood;
 import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Swerve.Drivetrain;
 
-public class TwoBallTwo extends SequentialCommandGroup {
+public class OneBall extends SequentialCommandGroup {
 
-    public TwoBallTwo(Drivetrain drivetrain, Intake leftIntake, Intake rightIntake, Elevator bottom, Elevator top, Turret turret, ShooterHood hood, Shooter shooter, Climber climb){
-        final AutoFromPathPlanner fiveBallUno = new AutoFromPathPlanner(drivetrain, "20222BallAuto-two", 3.2);
+    public OneBall(Drivetrain drivetrain, Intake leftIntake, Intake rightIntake, Elevator bottom, Elevator top, Turret turret, ShooterHood hood, Shooter shooter, Climber climb){
+        final AutoFromPathPlanner fiveBallUno = new AutoFromPathPlanner(drivetrain, "MoveBackAndShoot", 3.2);
         final RunIntake runIntake = new RunIntake(leftIntake);
         final FeedShooter m_autoFeed = new FeedShooter(turret, shooter, hood, top, bottom, drivetrain);
 
