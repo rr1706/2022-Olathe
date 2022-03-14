@@ -34,10 +34,10 @@ public class SixBall extends SequentialCommandGroup{
         final AutoFromPathPlanner sixBallQuatro = new AutoFromPathPlanner(drivetrain, "20226BallAuto-quatro", 3.2);
         final AutoFromPathPlanner sixBallCinco = new AutoFromPathPlanner(drivetrain, "20226BallAuto-cinco", 3.2);
 
-        final FeedShooter m_autoFeed = new FeedShooter(turret, shooter, hood, top, bottom, drivetrain);
-        final FeedShooter m_autoFeed2 = new FeedShooter(turret, shooter, hood, top, bottom, drivetrain);
-        final FeedShooter m_autoFeed3 = new FeedShooter(turret, shooter, hood, top, bottom, drivetrain);
-        final FeedShooter m_autoFeed4 = new FeedShooter(turret, shooter, hood, top, bottom, drivetrain);
+        final FeedShooter m_autoFeed = new FeedShooter(turret, top, bottom, drivetrain);
+        final FeedShooter m_autoFeed2 = new FeedShooter(turret, top, bottom, drivetrain);
+        final FeedShooter m_autoFeed3 = new FeedShooter(turret, top, bottom, drivetrain);
+        final FeedShooter m_autoFeed4 = new FeedShooter(turret, top, bottom, drivetrain);
 
         addCommands(
             

@@ -11,19 +11,15 @@ import frc.robot.subsystems.Swerve.Drivetrain;
 
 public class FeedShooter extends CommandBase{
     private final Turret m_turret;
-    private final Shooter m_shooter;
-    private final ShooterHood m_shooterHood;
     private final Elevator m_top;
     private final Elevator m_bottom;
     private final Drivetrain m_drive;
     private final Timer m_timer = new Timer();
     private boolean m_End = false;
 
-    public FeedShooter(Turret turret, Shooter shooter, ShooterHood shooterHood, Elevator top, Elevator bottom, Drivetrain
+    public FeedShooter(Turret turret, Elevator top, Elevator bottom, Drivetrain
      drive){
         m_turret = turret;
-        m_shooter = shooter;
-        m_shooterHood = shooterHood;
         m_top = top;
         m_bottom = bottom;
         m_drive = drive;

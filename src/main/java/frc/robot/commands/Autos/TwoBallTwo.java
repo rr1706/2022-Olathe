@@ -22,7 +22,7 @@ public class TwoBallTwo extends SequentialCommandGroup {
     public TwoBallTwo(Drivetrain drivetrain, Intake leftIntake, Intake rightIntake, Elevator bottom, Elevator top, Turret turret, ShooterHood hood, Shooter shooter, Climber climb){
         final AutoFromPathPlanner fiveBallUno = new AutoFromPathPlanner(drivetrain, "2022-2Ball-Two", 3.2);
         final RunIntake runIntake = new RunIntake(leftIntake);
-        final FeedShooter m_autoFeed = new FeedShooter(turret, shooter, hood, top, bottom, drivetrain);
+        final FeedShooter m_autoFeed = new FeedShooter(turret, top, bottom, drivetrain);
 
         addCommands(
             new InstantCommand(()->drivetrain.resetOdometry(fiveBallUno.getInitialPose())),

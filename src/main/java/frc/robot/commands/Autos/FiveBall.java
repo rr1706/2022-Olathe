@@ -34,9 +34,9 @@ public class FiveBall extends SequentialCommandGroup{
         final AutoFromPathPlanner fiveBallTres = new AutoFromPathPlanner(drivetrain, "20225BallAuto-tres", 3.2);
         final AutoFromPathPlanner fiveBallQuatro = new AutoFromPathPlanner(drivetrain, "20225BallAuto-quatro", 3.2);
 
-        final FeedShooter m_autoFeed = new FeedShooter(turret, shooter, hood, top, bottom, drivetrain);
-        final FeedShooter m_autoFeed2 = new FeedShooter(turret, shooter, hood, top, bottom, drivetrain);
-        final FeedShooter m_autoFeed3 = new FeedShooter(turret, shooter, hood, top, bottom, drivetrain);
+        final FeedShooter m_autoFeed = new FeedShooter(turret, top, bottom, drivetrain);
+        final FeedShooter m_autoFeed2 = new FeedShooter(turret, top, bottom, drivetrain);
+        final FeedShooter m_autoFeed3 = new FeedShooter(turret, top, bottom, drivetrain);
 
         addCommands(
             

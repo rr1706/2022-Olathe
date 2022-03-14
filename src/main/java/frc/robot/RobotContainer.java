@@ -32,7 +32,6 @@ import frc.robot.commands.FaceTurret;
 import frc.robot.commands.FeedShooter;
 import frc.robot.commands.IndexElevator;
 import frc.robot.commands.InitiateClimbMode;
-import frc.robot.commands.RunElevators;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.RunShooter;
 import frc.robot.commands.ZeroClimb;
@@ -79,7 +78,7 @@ public class RobotContainer {
   private final ShooterHood m_hood = new ShooterHood();
 
   private final IndexElevator m_indexElevator = new IndexElevator(m_highElevator, m_lowElevator);
-  private final FeedShooter m_feedShooter = new FeedShooter(m_turret, m_shooter, m_hood, m_highElevator, m_lowElevator, m_robotDrive);
+  private final FeedShooter m_feedShooter = new FeedShooter(m_turret, m_highElevator, m_lowElevator, m_robotDrive);
   private final ZeroClimb m_ZeroClimb = new ZeroClimb(m_climber);
   private final ZeroHood m_ZeroHood = new ZeroHood(m_hood);
 
