@@ -98,8 +98,8 @@ public class RobotContainer {
 
   private final Command autoFiveBall = new FiveBall(m_robotDrive, m_leftIntake, m_rightIntake, m_lowElevator, m_highElevator, m_turret, m_hood, m_shooter, m_climber);
   private final Command autoSixBall = new SixBall(m_robotDrive, m_leftIntake, m_rightIntake, m_lowElevator, m_highElevator, m_turret, m_hood, m_shooter, m_climber);
-  //private final Command autoTwoBallOne = new TwoBallOne(m_robotDrive, m_leftIntake, m_rightIntake, m_lowElevator, m_highElevator, m_turret, m_hood, m_shooter, m_climber);
-  //private final Command autoTwoBallTwo = new TwoBallTwo(m_robotDrive, m_leftIntake, m_rightIntake, m_lowElevator, m_highElevator, m_turret, m_hood, m_shooter, m_climber);
+  private final Command autoTwoBallOne = new TwoBallOne(m_robotDrive, m_leftIntake, m_rightIntake, m_lowElevator, m_highElevator, m_turret, m_hood, m_shooter, m_climber);
+  private final Command autoTwoBallTwo = new TwoBallTwo(m_robotDrive, m_leftIntake, m_rightIntake, m_lowElevator, m_highElevator, m_turret, m_hood, m_shooter, m_climber);
   //private final Command emergencyNoBall = new EMERGENCYNOBALL(m_robotDrive, m_leftIntake, m_rightIntake, m_lowElevator, m_highElevator, m_turret, m_hood, m_shooter, m_climber);
   private final Command doNothin = new WaitCommand(15.0);
 
@@ -161,8 +161,8 @@ public class RobotContainer {
   }
 
 private void configureAutoChooser(){
-  //m_chooser.addOption("Auto2BallOne", autoTwoBallOne);
-  //m_chooser.addOption("Auto2BallTwo", autoTwoBallTwo);
+  m_chooser.addOption("Auto2BallOne", autoTwoBallOne);
+  m_chooser.addOption("Auto2BallTwo", autoTwoBallTwo);
   m_chooser.addOption("Auto5Ball", autoFiveBall);
   m_chooser.addOption("Auto6Ball", autoSixBall);
   m_chooser.addOption("Do Nothing", doNothin);
