@@ -28,6 +28,7 @@ public class FaceTurret extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         m_turret.disable();
+        m_turret.stop();
     }
 
 }

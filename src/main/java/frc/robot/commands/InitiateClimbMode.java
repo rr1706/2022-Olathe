@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.DriveConstants;
@@ -57,6 +58,7 @@ public class InitiateClimbMode extends CommandBase {
         m_lowElevator.stop();
         m_highElevator.stop();
         m_climber.extend();
+        m_climber.changeConstraints(new Constraints(100, 50));
     }
 
       /**
@@ -77,6 +79,7 @@ public class InitiateClimbMode extends CommandBase {
     if(m_turret.atSetpoint() && !m_climbModeReady){
         m_climbModeReady = true;
         m_climber.setDesiredPose(81.0);
+        m_climber.run();
     }
     
   }
@@ -85,7 +88,10 @@ public class InitiateClimbMode extends CommandBase {
   public void end(boolean interrupted){
     m_climbModeReady = false;
     m_turret.disable();
-    m_climber.setDesiredPose(5.0);
+    m_turret.stop();
+    m_climber.setDesiredPose(2.0);
+    m_climber.stop();
+    m_climber.changeConstraints(new Constraints(50,25));
   }
 
   private double inputTransform(double input){

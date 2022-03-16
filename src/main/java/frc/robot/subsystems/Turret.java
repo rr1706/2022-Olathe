@@ -122,6 +122,11 @@ public class Turret extends PIDSubsystem {
             m_motor.set(output);
         }
     }
+
+    public void stop(){
+      m_motor.stopMotor();
+    }
+
     public boolean atSetpoint(){
         return m_controller.atSetpoint();
     }

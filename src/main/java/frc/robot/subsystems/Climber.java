@@ -45,6 +45,10 @@ public class Climber extends SubsystemBase {
 
     }
 
+    public void changeConstraints(Constraints newConstraints){
+        m_PID.setConstraints(newConstraints);
+    }
+
     public void extend() {
         m_valve.set(Value.kForward);
     }

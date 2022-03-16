@@ -129,6 +129,8 @@ public class RunShooter extends CommandBase {
     @Override
     public void end(boolean interrupted) {
       m_turret.trackTarget(false);
+      m_turret.disable();
+      m_turret.stop();
       m_shooter.stop();
       m_hood.stop();
       m_timer.stop();

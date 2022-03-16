@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Climber;
 
@@ -13,7 +14,8 @@ public class Extend extends CommandBase{
 
     @Override
     public void initialize(){
-        m_climber.setDesiredPose(82.0);
+        m_climber.changeConstraints(new Constraints(100,50));
+        m_climber.setDesiredPose(81.0);
         m_hasExtended = false;
     }
     @Override
@@ -33,9 +35,7 @@ public class Extend extends CommandBase{
 
     @Override 
     public void end(boolean interrupted){
-       // SmartDashboard.putBoolean("Climb at Setpoint", m_climber.atSetpoint());
-        //SmartDashboard.putBoolean("IF 1", false);
-        //SmartDashboard.putBoolean("IF 2", false);
+        m_climber.changeConstraints(new Constraints(50,25));
 
     }
     @Override

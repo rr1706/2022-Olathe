@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Climber;
 
@@ -23,12 +24,13 @@ public class ZeroClimb extends CommandBase {
         m_timer.start();
         m_LimitHit = false;
         m_hitTime = Double.POSITIVE_INFINITY;
+        SmartDashboard.putBoolean("Zeroing Climber", true);
     }
 
     @Override
     public void execute(){
         double time = m_timer.get();
-        if(m_climber.getLimit() && time>0.040){
+        if(m_climber.getLimit() && time>0.040 && !m_LimitHit){
             m_climber.stop();
             m_climber.setPoseRef(0.0);
             m_LimitHit = true;
@@ -48,6 +50,7 @@ public class ZeroClimb extends CommandBase {
         m_climber.setDesiredPose(2.0);      
         m_climber.stop();
         m_timer.stop();
+
     }
     @Override
     public boolean isFinished(){

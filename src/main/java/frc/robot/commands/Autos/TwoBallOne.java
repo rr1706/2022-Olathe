@@ -1,5 +1,7 @@
 package frc.robot.commands.Autos;
 
+import java.nio.file.attribute.DosFileAttributeView;
+
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -18,20 +20,31 @@ import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Swerve.Drivetrain;
 
 public class TwoBallOne extends SequentialCommandGroup {
+    private final Drivetrain m_drive;
 
     public TwoBallOne(Drivetrain drivetrain, Intake leftIntake, Intake rightIntake, Elevator bottom, Elevator top, Turret turret, ShooterHood hood, Shooter shooter, Climber climb){
-        final AutoFromPathPlanner fiveBallUno = new AutoFromPathPlanner(drivetrain, "2022-2BallAuto-One", 3.2);
-        final RunIntake runIntake = new RunIntake(leftIntake);
+        final AutoFromPathPlanner twoBallPath = new AutoFromPathPlanner(drivetrain, "20222BallAuto-one", 3.2);
         final FeedShooter m_autoFeed = new FeedShooter(turret, top, bottom, drivetrain);
 
+        m_drive = drivetrain;
+
         addCommands(
-            new InstantCommand(()->drivetrain.resetOdometry(fiveBallUno.getInitialPose())),
+            new InstantCommand(()->drivetrain.resetOdometry(twoBallPath.getInitialPose())),
+            new InstantCommand(()->climb.extend()),
             new ParallelCommandGroup(
                 new RunShooter(shooter, turret, drivetrain, hood, false),
                 new SequentialCommandGroup(
-                    fiveBallUno.raceWith(runIntake).alongWith(new IndexElevator(top, bottom)),
+                    twoBallPath.raceWith(new RunIntake(leftIntake).alongWith(new IndexElevator(top, bottom))),
                     m_autoFeed.raceWith(new WaitCommand(1.0).andThen(new InstantCommand(()->m_autoFeed.stop())))))
         );
+
+        
     }
         
+    @Override
+    public void end(boolean interrupted){
+        m_drive.updateKeepAngle();
+        m_drive.stop();
+    }
+
 }

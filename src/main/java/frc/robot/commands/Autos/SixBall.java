@@ -43,7 +43,6 @@ public class SixBall extends SequentialCommandGroup{
             
             new InstantCommand(()->drivetrain.resetOdometry(fiveBallUno.getInitialPose())),
             new InstantCommand(()->climb.extend()),
-            new ZeroHood(hood), new ZeroClimb(climb),
             new ParallelCommandGroup(
                 new RunShooter(shooter, turret, drivetrain, hood, false),
                 new SequentialCommandGroup(

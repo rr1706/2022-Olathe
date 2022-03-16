@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -26,6 +25,7 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.Utilities.JoystickAnalogButton;
 import frc.robot.Utilities.JoystickAnalogButton.Side;
 import frc.robot.commands.Climb;
+import frc.robot.commands.ClimbToBar;
 import frc.robot.commands.Extend;
 import frc.robot.commands.DriveByController;
 import frc.robot.commands.FaceTurret;
@@ -34,13 +34,12 @@ import frc.robot.commands.IndexElevator;
 import frc.robot.commands.InitiateClimbMode;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.RunShooter;
+import frc.robot.commands.Test;
 import frc.robot.commands.ZeroClimb;
 import frc.robot.commands.ZeroHood;
-import frc.robot.commands.Autos.EMERGENCYNOBALL;
 import frc.robot.commands.Autos.FiveBall;
 import frc.robot.commands.Autos.SixBall;
 import frc.robot.commands.Autos.TwoBallOne;
-import frc.robot.commands.Autos.TwoBallTwo;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
@@ -87,7 +86,9 @@ public class RobotContainer {
 
   private final InitiateClimbMode m_climbMode = new InitiateClimbMode(m_shooter, m_hood, m_turret, m_leftIntake, 
     m_rightIntake, m_highElevator, m_lowElevator, m_robotDrive, m_driverController, m_climber);
+
   private final Climb m_climb = new Climb(m_climber);
+  private final ClimbToBar m_nextBar = new ClimbToBar(m_climber);
   private final Extend m_extend= new Extend(m_climber);
 
   private final RunShooter m_runShooter = new RunShooter(m_shooter, m_turret, m_robotDrive, m_hood, true);
@@ -98,10 +99,13 @@ public class RobotContainer {
 
   private final Command autoFiveBall = new FiveBall(m_robotDrive, m_leftIntake, m_rightIntake, m_lowElevator, m_highElevator, m_turret, m_hood, m_shooter, m_climber);
   private final Command autoSixBall = new SixBall(m_robotDrive, m_leftIntake, m_rightIntake, m_lowElevator, m_highElevator, m_turret, m_hood, m_shooter, m_climber);
-  private final Command autoTwoBallOne = new TwoBallOne(m_robotDrive, m_leftIntake, m_rightIntake, m_lowElevator, m_highElevator, m_turret, m_hood, m_shooter, m_climber);
-  private final Command autoTwoBallTwo = new TwoBallTwo(m_robotDrive, m_leftIntake, m_rightIntake, m_lowElevator, m_highElevator, m_turret, m_hood, m_shooter, m_climber);
+  private final Command autoTwoBall = new TwoBallOne(m_robotDrive, m_leftIntake, m_rightIntake, m_lowElevator, m_highElevator, m_turret, m_hood, m_shooter, m_climber);
+  //private final Command autoTwoBallTwo = new TwoBallTwo(m_robotDrive, m_leftIntake, m_rightIntake, m_lowElevator, m_highElevator, m_turret, m_hood, m_shooter, m_climber);
+  //private final Command autoOneBall = new OneBall(m_robotDrive, m_leftIntake, m_rightIntake, m_lowElevator, m_highElevator, m_turret, m_hood, m_shooter, m_climber);
   //private final Command emergencyNoBall = new EMERGENCYNOBALL(m_robotDrive, m_leftIntake, m_rightIntake, m_lowElevator, m_highElevator, m_turret, m_hood, m_shooter, m_climber);
-  private final Command doNothin = new WaitCommand(15.0);
+  private final Command doNothin = new WaitCommand(20.0);
+
+  private final Command m_test = new Test(m_hood, m_climber, m_turret, m_lowElevator, m_highElevator, m_robotDrive);
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -155,17 +159,19 @@ public class RobotContainer {
 
     new JoystickButton(m_operatorController, Button.kA.value).whenPressed(new ConditionalCommand(m_climb, new WaitCommand(0.0), ()->m_climbMode.isClimbModeReady()));
     new JoystickButton(m_operatorController, Button.kX.value).whenPressed(m_extend);
+    new JoystickButton(m_operatorController, Button.kY.value).whenPressed(m_nextBar);
+
     //new JoystickButton(m_operatorController, Button.kY.value).whenPressed(new ConditionalCommand(m_extendToTraversal, new WaitCommand(0.0), ()->m_climbFromMid.isFinished()));
     // new JoystickButton(m_operatorController, Button.kB.value).whenPressed(m_climbFromFloor.andThen(m_climbToHigh).andThen(m_climbToTraversal));
 
   }
 
 private void configureAutoChooser(){
-  m_chooser.addOption("Auto2BallOne", autoTwoBallOne);
-  m_chooser.addOption("Auto2BallTwo", autoTwoBallTwo);
+  m_chooser.addOption("Auto2Ball", autoTwoBall);
   m_chooser.addOption("Auto5Ball", autoFiveBall);
   m_chooser.addOption("Auto6Ball", autoSixBall);
   m_chooser.addOption("Do Nothing", doNothin);
+  
   //m_chooser.setDefaultOption("Emergency No Ball", emergencyNoBall);
   SmartDashboard.putData(m_chooser);  
 }
@@ -186,6 +192,6 @@ private void configureAutoChooser(){
    * @return the command to run in autonomous
    */
   public Command getTest() {
-    return new SequentialCommandGroup(new ZeroClimb(m_climber).alongWith(new ZeroHood(m_hood)),new RunCommand(()->m_climber.stop(), m_climber).alongWith(new RunCommand(()->m_hood.stop(),m_hood)));
+    return m_test;
   }
 }
