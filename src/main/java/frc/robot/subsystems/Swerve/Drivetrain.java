@@ -103,10 +103,10 @@ import frc.robot.Constants.*;
   @Override
   public void periodic(){
 
-        SmartDashboard.putNumber("Front Left Encoder", m_frontLeft.getTurnEncoder());
-        SmartDashboard.putNumber("Front Right Encoder", m_frontRight.getTurnEncoder());
-        SmartDashboard.putNumber("Back Left Encoder", m_backLeft.getTurnEncoder());
-        SmartDashboard.putNumber("Back Right Encoder", m_backRight.getTurnEncoder());
+        //SmartDashboard.putNumber("Front Left Encoder", m_frontLeft.getTurnEncoder());
+        //SmartDashboard.putNumber("Front Right Encoder", m_frontRight.getTurnEncoder());
+        //SmartDashboard.putNumber("Back Left Encoder", m_backLeft.getTurnEncoder());
+        //SmartDashboard.putNumber("Back Right Encoder", m_backRight.getTurnEncoder());
 
         //Update swerve drive odometry periodically so robot pose can be tracked
         updateOdometry();    

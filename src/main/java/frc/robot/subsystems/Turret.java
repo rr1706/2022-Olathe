@@ -33,12 +33,12 @@ public class Turret extends PIDSubsystem {
         m_motor.enableVoltageCompensation(GlobalConstants.kVoltCompensation);
         m_motor.burnFlash();
         m_controller.setTolerance(TurretConstants.kTurretTolerance);
-        SmartDashboard.putBoolean("Limelight", false);
+        SmartDashboard.putBoolean("EnableLimelight", false);
     }
 
     public double getMeasurement(){
         double angle = MathUtils.toUnitCircAngle(-1.0*m_encoder.get())+0.1544;
-        SmartDashboard.putNumber("Turret Encoder", angle);
+       // SmartDashboard.putNumber("Turret Encoder", angle);
         return angle;
     }
 
@@ -49,18 +49,18 @@ public class Turret extends PIDSubsystem {
         Translation2d robotToGoal = GoalConstants.kGoalLocation.minus(robotPose.getTranslation());
 
         double dist = robotToGoal.getDistance(new Translation2d());
-        SmartDashboard.putNumber("Distance to Goal (m)", dist);
-        SmartDashboard.putNumber("Distance to Goal (in)", dist*39.37);
+        //SmartDashboard.putNumber("Distance to Goal (m)", dist);
+        //SmartDashboard.putNumber("Distance to Goal (in)", dist*39.37);
     
         double angle = Math.atan2(robotToGoal.getY(),robotToGoal.getX());
 
         angle = Math.PI+angle-robotPose.getRotation().getRadians();
 
-        SmartDashboard.putNumber("Angle to Face", angle);
+        SmartDashboard.putNumber("Turret Set Angle", angle);
 
         angle = MathUtils.toUnitCircAngle(angle);
 
-        if (m_trackTarget || SmartDashboard.getBoolean("Limelight", false)) {
+        if (m_trackTarget || SmartDashboard.getBoolean("EnableLimelight", false)) {
             Limelight.enable();
             Limelight.getDistance();
           } else {

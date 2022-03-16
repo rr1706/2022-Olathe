@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 
@@ -23,6 +24,7 @@ public class RunIntake extends CommandBase {
 
     @Override
     public void execute(){
+        SmartDashboard.putBoolean(m_intake.getID() + " Running", true);
         final double currentTime = m_timer.get();
         if(m_intake.getCurrent()>15.0 && currentTime>0.250 && !m_ballDetected)
         {
@@ -43,6 +45,7 @@ public class RunIntake extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        SmartDashboard.putBoolean(m_intake.getID() + " Running", false);
         m_intake.retract();
         m_timer.stop();
         m_ballDetected = false;

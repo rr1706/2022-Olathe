@@ -35,8 +35,6 @@ public class Climb extends CommandBase {
     public void execute(){
         SmartDashboard.putBoolean("Climbing from Floor", true);
         double currentTime = m_timer.get();
-        SmartDashboard.putNumber("Climb Time", m_time);
-        SmartDashboard.putNumber("Climb Current Time", currentTime);
 
         if(m_climber.atSetpoint() && !m_dragAss){
             m_climber.changeConstraints(new Constraints(50,25));

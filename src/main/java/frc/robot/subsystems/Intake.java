@@ -64,12 +64,13 @@ public class Intake extends SubsystemBase {
        return m_motor.getOutputCurrent();
     }
 
+    public String getID(){
+        return m_ID;
+    }
+
     @Override
     public void periodic() {
-        //m_RPM = SmartDashboard.getNumber("Set "+m_ID+" Intake RPM", 8000);
-       // SmartDashboard.putNumber(m_ID+" Intake Current", m_motor.getOutputCurrent());
-       // SmartDashboard.putNumber(m_ID+" Intake Motor Temp", m_motor.getMotorTemperature());
-        SmartDashboard.putNumber(m_ID+" Intake RPM", m_encoder.getVelocity());
+
     }
 
 }

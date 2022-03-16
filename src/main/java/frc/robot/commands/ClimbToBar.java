@@ -30,7 +30,9 @@ public class ClimbToBar extends CommandBase {
     }
 
     @Override
-    public void execute(){
+    public void execute(){        
+        SmartDashboard.putBoolean("Climbing To Bar", true);
+
         double currentTime = m_timer.get();
         if(m_climber.getLimit() && !m_pastHooks)
         {
@@ -53,7 +55,7 @@ public class ClimbToBar extends CommandBase {
     public void end(boolean interrupted){
         m_climber.changeConstraints(new Constraints(50,25));
         m_climber.setDesiredPose(6.0);
-        SmartDashboard.putBoolean("Climbing from Floor", false);
+        SmartDashboard.putBoolean("Climbing To Bar", false);
     }
 
     @Override

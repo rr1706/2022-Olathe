@@ -73,7 +73,7 @@ private static LinearInterpolationTable angleTable = new LinearInterpolationTabl
 
     @Override
     public void periodic(){
-        SmartDashboard.putNumber("Hood Current", getTotalCurrent());
+        //SmartDashboard.putNumber("Hood Current", getTotalCurrent());
         SmartDashboard.putNumber("Current Hood Angle", getHoodAngle());
 
     }

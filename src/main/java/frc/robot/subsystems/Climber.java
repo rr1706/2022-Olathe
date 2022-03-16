@@ -88,8 +88,8 @@ public class Climber extends SubsystemBase {
         //SmartDashboard.putBoolean("Running Climber", false);
         //m_pose = SmartDashboard.getNumber("Set Climber Pose", 0.0);
         SmartDashboard.putNumber("Climber Pose", pose);
-        SmartDashboard.putNumber("Climber Speed", speed);
-        SmartDashboard.putNumber("Climber Desried Pose", m_pose);
+        //SmartDashboard.putNumber("Climber Speed", speed);
+        //SmartDashboard.putNumber("Climber Desried Pose", m_pose);
         SmartDashboard.putNumber("Climber Current", getCurrent());
         SmartDashboard.putBoolean("Climber Limit", getLimit());
         //SmartDashboard.putNumber("Current 2", m_motor2.getOutputCurrent());

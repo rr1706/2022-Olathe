@@ -61,7 +61,7 @@ public class Elevator extends SubsystemBase {
         //m_RPM = SmartDashboard.getNumber("Set "+m_ID+" Elevator RPM", 10000);
         //SmartDashboard.putNumber(m_ID+" Elevator Current", m_motor.getOutputCurrent());
        // SmartDashboard.putNumber(m_ID+" Elevator Motor Temp", m_motor.getMotorTemperature());
-        SmartDashboard.putNumber(m_ID+" Elevator RPM", m_encoder.getVelocity());
-        SmartDashboard.putBoolean(m_ID+" Indexed Ball", getSensor());
+       // SmartDashboard.putNumber(m_ID+" Elevator RPM", m_encoder.getVelocity());
+        //SmartDashboard.putBoolean(m_ID+" Indexed Ball", getSensor());
     }
 }

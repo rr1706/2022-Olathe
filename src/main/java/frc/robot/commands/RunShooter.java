@@ -80,35 +80,44 @@ public class RunShooter extends CommandBase {
         m_turret.trackTarget(true);
         m_timer.reset();
         m_timer.start();
-        SmartDashboard.putNumber("SetHoodAngle", 10.0);
-        SmartDashboard.putNumber("SetShotRPM", 2500);
-        SmartDashboard.putBoolean("Override LIT", false);
+        SmartDashboard.putNumber("SetHoodAdjust", 0.0);
+        SmartDashboard.putNumber("SetShotAdjust", 0);
+        SmartDashboard.putBoolean("Adjust Shot?", false);
     }
 
     @Override
     public void execute(){
+        SmartDashboard.putBoolean("Shooter Running", true);
         Translation2d robotToGoal = GoalConstants.kGoalLocation.minus(m_drive.getPose().getTranslation());
         double dist = robotToGoal.getDistance(new Translation2d())*39.37;
-        SmartDashboard.putNumber("distance In shooter?", dist);
-        if(SmartDashboard.getBoolean("Override LIT", false)){
-            m_shooter.run(SmartDashboard.getNumber("SetShotRPM", 2500));
-            m_hood.run(SmartDashboard.getNumber("SetHoodAngle", 10.0));
-        }
-        else if(Limelight.valid()){
+        SmartDashboard.putNumber("Calculated (in)", dist);
+        if(Limelight.valid()){
             dist = Limelight.getDistance();
-            m_shooter.run(m_rpmTable.getOutput(dist));
-            m_hood.run(m_hoodTable.getOutput(dist));
+            SmartDashboard.putNumber("Limelight (in)", dist);
+            if(SmartDashboard.getBoolean("Adjust Shot?", false)){
+                m_shooter.run(m_rpmTable.getOutput(dist)+SmartDashboard.getNumber("SetShotAdjust", 0));
+                m_hood.run(m_hoodTable.getOutput(dist)+SmartDashboard.getNumber("SetHoodAdjust", 0));
+            } 
+            else{
+                m_shooter.run(m_rpmTable.getOutput(dist));
+                m_hood.run(m_hoodTable.getOutput(dist));
+            }
         }
         else{
-        m_shooter.run(m_rpmTable.getOutput(dist));
-        m_hood.run(m_hoodTable.getOutput(dist));
+
+            if(SmartDashboard.getBoolean("Adjust Shot?", false)){
+                m_shooter.run(m_rpmTable.getOutput(dist)+SmartDashboard.getNumber("SetShotAdjust", 0));
+                m_hood.run(m_hoodTable.getOutput(dist)+SmartDashboard.getNumber("SetHoodAdjust", 0));
+            } 
+            else{
+                m_shooter.run(m_rpmTable.getOutput(dist));
+                m_hood.run(m_hoodTable.getOutput(dist));
+            }
+
         }
         m_turret.setAngle(m_drive.getPose());
         double currentTime = m_timer.get();
         
-        //SmartDashboard.putNumber("In loop", currentTime);
-        SmartDashboard.putNumber("Distance", Limelight.getDistance());
-
         if(currentTime > 0.250 && Limelight.valid() && !robotMovingFast(m_drive.getChassisSpeed())){
             double dL = Limelight.getDistance()*0.0254;
             double tR = m_drive.getGyro().getRadians();
@@ -117,8 +126,6 @@ public class RunShooter extends CommandBase {
     
             Pose2d pose = calcPoseFromVision(dL, tR, tT, tL, GoalConstants.kGoalLocation);
     
-            //SmartDashboard.putNumber("Calc Xin", pose.getX()*39.37);
-            //SmartDashboard.putNumber("Calc Yin", pose.getY()*39.37);
             if(m_updatePose){
                 m_drive.setPose(pose);
             }
@@ -128,6 +135,7 @@ public class RunShooter extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        SmartDashboard.putBoolean("Shooter Running", false);
       m_turret.trackTarget(false);
       m_turret.disable();
       m_turret.stop();
