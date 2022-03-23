@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Constants.GoalConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.ShooterConstants;
@@ -91,11 +92,11 @@ public class RobotContainer {
   private final ClimbToBar m_nextBar = new ClimbToBar(m_climber);
   private final Extend m_extend= new Extend(m_climber);
 
-  private final RunShooter m_runShooter = new RunShooter(m_shooter, m_turret, m_robotDrive, m_hood, true);
+  private final RunShooter m_runShooter = new RunShooter(m_shooter, m_turret, m_robotDrive, m_hood, true, GoalConstants.kGoalLocation);
 
   private final DriveByController m_drive = new DriveByController(m_robotDrive, m_driverController);
 
-  private final FaceTurret m_faceTurret = new FaceTurret(m_turret, m_robotDrive); // Create FaceTurret Command
+  private final FaceTurret m_faceTurret = new FaceTurret(m_turret, m_robotDrive, GoalConstants.kGoalLocation); // Create FaceTurret Command
 
   private final Command autoFiveBall = new FiveBall(m_robotDrive, m_leftIntake, m_rightIntake, m_lowElevator, m_highElevator, m_turret, m_hood, m_shooter, m_climber);
   private final Command autoSixBall = new SixBall(m_robotDrive, m_leftIntake, m_rightIntake, m_lowElevator, m_highElevator, m_turret, m_hood, m_shooter, m_climber);

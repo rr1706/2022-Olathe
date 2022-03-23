@@ -22,6 +22,7 @@ public class RunShooter extends CommandBase {
     private final Drivetrain m_drive;
     private final ShooterHood m_hood;
     private final boolean m_updatePose;
+    private final Translation2d m_targetLocation;
     private final Timer m_timer = new Timer();
 
     private static Point2D[] m_hoodPoints = 
@@ -65,12 +66,13 @@ public class RunShooter extends CommandBase {
 
     
 
-    public RunShooter(Shooter shooter, Turret turret, Drivetrain drive,ShooterHood hood, boolean updatePose){
+    public RunShooter(Shooter shooter, Turret turret, Drivetrain drive,ShooterHood hood, boolean updatePose, Translation2d targetLocation){
         m_shooter = shooter;
         m_turret = turret;
         m_drive = drive;
         m_hood = hood;
         m_updatePose = updatePose;
+        m_targetLocation = targetLocation;
         addRequirements(shooter, turret, hood);
     }
 
@@ -88,7 +90,7 @@ public class RunShooter extends CommandBase {
     @Override
     public void execute(){
         SmartDashboard.putBoolean("Shooter Running", true);
-        Translation2d robotToGoal = GoalConstants.kGoalLocation.minus(m_drive.getPose().getTranslation());
+        Translation2d robotToGoal = m_targetLocation.minus(m_drive.getPose().getTranslation());
         double dist = robotToGoal.getDistance(new Translation2d())*39.37;
         SmartDashboard.putNumber("Calculated (in)", dist);
         if(Limelight.valid()){
@@ -115,7 +117,8 @@ public class RunShooter extends CommandBase {
             }
 
         }
-        m_turret.setAngle(m_drive.getPose());
+
+        m_turret.setAngle(m_drive.getPose(), m_targetLocation);
         double currentTime = m_timer.get();
         
         if(currentTime > 0.250 && Limelight.valid() && !robotMovingFast(m_drive.getChassisSpeed())){

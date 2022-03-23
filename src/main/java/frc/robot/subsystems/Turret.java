@@ -43,10 +43,10 @@ public class Turret extends PIDSubsystem {
     }
 
 
-    public void setAngle(Pose2d robotPose){
+    public void setAngle(Pose2d robotPose, Translation2d targetLocation){
 
     
-        Translation2d robotToGoal = GoalConstants.kGoalLocation.minus(robotPose.getTranslation());
+        Translation2d robotToGoal = targetLocation.minus(robotPose.getTranslation());
 
         double dist = robotToGoal.getDistance(new Translation2d());
         //SmartDashboard.putNumber("Distance to Goal (m)", dist);
