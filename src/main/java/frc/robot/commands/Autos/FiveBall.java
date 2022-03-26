@@ -58,6 +58,7 @@ public class FiveBall extends SequentialCommandGroup{
     @Override
     public void end(boolean interrupted){
         m_drive.updateKeepAngle();
+        m_drive.resetOdometry(m_drive.getGyro());
         m_drive.stop();
     }
 }
