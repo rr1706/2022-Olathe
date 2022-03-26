@@ -107,6 +107,7 @@ public final class Constants {
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;    //When making use of multiple controllers for drivers each controller will be on a different port
     public static final int kOperatorControllerPort = 1;  //When making use of multiple controllers for drivers each controller will be on a different port
+    public static final double rumbleStrength = 0.8; // Strength of controller rumble (0.0 - 1.0)
   }
 
   /**

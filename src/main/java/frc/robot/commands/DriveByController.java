@@ -4,7 +4,9 @@ import frc.robot.Constants.*;
 import frc.robot.subsystems.Swerve.*;
 import frc.robot.Utilities.MathUtils;
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
   /**
@@ -16,7 +18,6 @@ public class DriveByController extends CommandBase {
 
   private final SlewRateLimiter m_slewX = new SlewRateLimiter(1.25);
   private final SlewRateLimiter m_slewY = new SlewRateLimiter(1.25);
-
 
   private boolean fieldOrient = true;
 
@@ -30,7 +31,6 @@ public class DriveByController extends CommandBase {
     m_controller = controller;      //Set the private member to the input controller
     addRequirements(m_robotDrive);  //Because this will be used as a default command, add the subsystem which will use this as the default
   }
-
 
   /**
    * the execute function is overloaded with the function to drive the swerve drivetrain
