@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.GoalConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.Utilities.LinearInterpolationTable;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
@@ -91,7 +92,7 @@ public class RunShooter extends CommandBase {
         Translation2d robotToGoal = GoalConstants.kGoalLocation.minus(m_drive.getPose().getTranslation());
         double dist = robotToGoal.getDistance(new Translation2d())*39.37;
         SmartDashboard.putNumber("Calculated (in)", dist);
-        if(Limelight.valid()){
+        if(Limelight.valid()&& dist>ShooterConstants.kDistWithoutLimelight){
             dist = Limelight.getDistance();
             SmartDashboard.putNumber("Limelight (in)", dist);
             if(SmartDashboard.getBoolean("Adjust Shot?", false)){

@@ -175,6 +175,7 @@ public final class Constants {
     public static final double[] kPID = { 0.00005, 0.0003, 0 };         //Defines PID values for the shooter 0.00045
     public static final double kShooterFF = 0.018;            //Defines shooter FeedForward Value, should be roughly equal to 1/MaxMotorRPM * MaxRPMVoltage / Compensation Voltage
     public static final double kStaticGain = 0.0001635;
+    public static final double kDistWithoutLimelight = 80;
   }
   
     /**
