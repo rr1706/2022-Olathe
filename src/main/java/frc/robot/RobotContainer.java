@@ -34,6 +34,7 @@ import frc.robot.commands.FaceTurret;
 import frc.robot.commands.FeedShooter;
 import frc.robot.commands.IndexElevator;
 import frc.robot.commands.InitiateClimbMode;
+import frc.robot.commands.ReverseIntakes;
 import frc.robot.commands.RunIntake;
 import frc.robot.commands.RunShooter;
 import frc.robot.commands.Test;
@@ -85,6 +86,7 @@ public class RobotContainer {
 
   private final RunIntake m_runLeftIntake = new RunIntake(m_leftIntake);
   private final RunIntake m_runRightIntake = new RunIntake(m_rightIntake);
+  private final ReverseIntakes m_reverseIntakes = new ReverseIntakes(m_rightIntake, m_leftIntake);
 
   private final InitiateClimbMode m_climbMode = new InitiateClimbMode(m_shooter, m_hood, m_turret, m_leftIntake, 
     m_rightIntake, m_highElevator, m_lowElevator, m_robotDrive, m_driverController, m_climber);
@@ -151,6 +153,7 @@ public class RobotContainer {
 
     new JoystickButton(m_driverController, Button.kRightBumper.value).whenPressed(m_feedShooter).whenReleased(()->m_feedShooter.stop());
 
+    new JoystickButton(m_operatorController, Button.kB.value).whileHeld(m_reverseIntakes);
     new JoystickButton(m_operatorController, Button.kRightBumper.value).whenPressed(m_ZeroHood);
     new JoystickButton(m_operatorController, Button.kLeftBumper.value).whenPressed(m_ZeroClimb);
     //new JoystickButton(m_operatorController, Button.kA.value).whenPressed(()->m_climber.extend());
